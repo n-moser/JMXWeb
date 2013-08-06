@@ -1,7 +1,5 @@
-JMXWeb
+JMXWeb (JMX Web GUI)
 =======
 
-JMX Web GUI
+A Web GUI for Java Servlet Containers (WAR) that displays JMX MBeans.
 
-
-A Web GUI for Java Servlet Containers (WAR).
