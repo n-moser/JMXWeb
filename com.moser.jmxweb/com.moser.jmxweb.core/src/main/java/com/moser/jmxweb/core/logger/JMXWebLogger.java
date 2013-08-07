@@ -21,31 +21,36 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.moser.jmxweb.base.connection;
+package com.moser.jmxweb.core.logger;
 
 /**
- * JMXConnectorFactory
+ * JMXWebLogger
  * <p/>
  * User: Nicolas Moser
  * Date: 07.08.13
- * Time: 17:57
+ * Time: 00:25
  */
-public class JMXConnectionFactory {
+public interface JMXWebLogger {
 
-    /**
-     * Constructs a new Connection Factory.
-     */
-    public JMXConnectionFactory() {
-    }
+    void error(String message, Object... parameters);
 
-    /**
-     * Creates a new JMXConnection instance.
-     *
-     * @return the new created instance
-     * @throws JMXConnectionException when the connection cannot be established
-     */
-    public JMXConnection getConnection() throws JMXConnectionException {
-        return new LocalJMXConnection();
-    }
+    void error(Exception exception, String message, Object... parameters);
+
+    void warn(String message, Object... parameters);
+
+    void warn(Exception exception, String message, Object... parameters);
+
+    void info(String message, Object... parameters);
+
+    void info(Exception exception, String message, Object... parameters);
+
+    void debug(String message, Object... parameters);
+
+    void debug(Exception exception, String message, Object... parameters);
+
+    void trace(String message, Object... parameters);
+
+    void trace(Exception exception, String message, Object... parameters);
+
 
 }

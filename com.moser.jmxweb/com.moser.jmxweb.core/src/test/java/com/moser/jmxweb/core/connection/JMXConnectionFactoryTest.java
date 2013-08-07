@@ -21,29 +21,28 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.moser.jmxweb.base.logger;
+package com.moser.jmxweb.core.connection;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Slf4jLoggerTest
+ * JMXConnectionFactoryTest
  * <p/>
- * User: Nicolas Moser
+ * Author: Nicolas Moser
  * Date: 07.08.13
- * Time: 16:44
+ * Time: 23:13
  */
-public class Slf4jLoggerTest {
+public class JMXConnectionFactoryTest {
 
     @Test
-    public void testLogger() throws Exception {
+    public void testConnection() throws Exception {
 
-        JMXWebLogger logger = JMXWebLoggerFactory.getLogger(Slf4jLoggerTest.class);
+        JMXConnectionFactory factory = new JMXConnectionFactory();
+        JMXConnection connection = factory.getConnection();
 
-        Assert.assertNotNull(logger);
-        Assert.assertSame(logger.getClass(), Slf4jLogger.class);
+        Assert.assertNotNull(connection);
+        Assert.assertSame(LocalJMXConnection.class, connection.getClass());
 
-        logger.info("Test");
     }
-
 }

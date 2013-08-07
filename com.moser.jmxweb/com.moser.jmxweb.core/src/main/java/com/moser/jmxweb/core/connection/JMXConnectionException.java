@@ -21,13 +21,28 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.moser.jmxweb.base.connection;
+package com.moser.jmxweb.core.connection;
+
+import com.moser.jmxweb.core.exception.JMXWebException;
 
 /**
- * JMXConnection
+ * JMXConnectionException
  * <p/>
- * User: Nicolas Moser Date: 07.08.13 Time: 17:58
+ * User: Nicolas Moser
+ * Date: 07.08.13
+ * Time: 17:58
  */
-public abstract class JMXConnection {
+public class JMXConnectionException extends JMXWebException {
 
+    public JMXConnectionException(String message) {
+        super(message);
+    }
+
+    public JMXConnectionException(Exception cause) {
+        super(cause);
+    }
+
+    public JMXConnectionException(String message, Exception cause) {
+        super(message, cause);
+    }
 }

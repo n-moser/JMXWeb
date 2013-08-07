@@ -21,28 +21,13 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.moser.jmxweb.base.connection;
-
-import org.junit.Assert;
-import org.junit.Test;
+package com.moser.jmxweb.core.connection;
 
 /**
- * JMXConnectionFactoryTest
+ * JMXConnection
  * <p/>
- * Author: Nicolas Moser
- * Date: 07.08.13
- * Time: 23:13
+ * User: Nicolas Moser Date: 07.08.13 Time: 17:58
  */
-public class JMXConnectionFactoryTest {
+public abstract class JMXConnection {
 
-    @Test
-    public void testConnection() throws Exception {
-
-        JMXConnectionFactory factory = new JMXConnectionFactory();
-        JMXConnection connection = factory.getConnection();
-
-        Assert.assertNotNull(connection);
-        Assert.assertSame(LocalJMXConnection.class, connection.getClass());
-
-    }
 }

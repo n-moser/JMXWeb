@@ -21,19 +21,27 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.moser.jmxweb.base.logger;
+package com.moser.jmxweb.core.exception;
 
 /**
- * JMXWebLoggerFactory
+ * JMXWebException
  * <p/>
  * User: Nicolas Moser
  * Date: 07.08.13
- * Time: 16:35
+ * Time: 00:23
  */
-public class JMXWebLoggerFactory {
+public class JMXWebException extends Exception {
 
-    public static JMXWebLogger getLogger(Class<?> loggingClass) {
-        return new Slf4jLogger(loggingClass);
+    public JMXWebException(String message) {
+        super(message);
+    }
+
+    public JMXWebException(Exception cause) {
+        super(cause);
+    }
+
+    public JMXWebException(String message, Exception cause) {
+        super(message, cause);
     }
 
 
