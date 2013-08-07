@@ -8,5 +8,6 @@
 
 # Directories #
 .idea/
+.metadata/
 .gradle/
 build/

@@ -1,0 +1,1 @@
+include "com.moser.jmxweb.core", "com.moser.jmxweb.web"
