@@ -21,21 +21,31 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.moser.jmxweb.base.connection.connector;
-
-import com.moser.jmxweb.base.connection.JMXConnection;
-import com.moser.jmxweb.base.connection.JMXConnectionException;
+package com.moser.jmxweb.base.connection;
 
 /**
- * LocalJMXConnector
+ * JMXConnectorFactory
  * <p/>
- * User: Nicolas Moser Date: 07.08.13 Time: 17:57
+ * User: Nicolas Moser
+ * Date: 07.08.13
+ * Time: 17:57
  */
-class LocalJMXConnector implements JMXConnector {
+public class JMXConnectionFactory {
 
-	@Override
-	public JMXConnection connect() throws JMXConnectionException {
-		return null;
-	}
+    /**
+     * Constructs a new Connection Factory.
+     */
+    public JMXConnectionFactory() {
+    }
+
+    /**
+     * Creates a new JMXConnection instance.
+     *
+     * @return the new created instance
+     * @throws JMXConnectionException when the connection cannot be established
+     */
+    public JMXConnection getConnection() throws JMXConnectionException {
+        return new LocalJMXConnection();
+    }
 
 }

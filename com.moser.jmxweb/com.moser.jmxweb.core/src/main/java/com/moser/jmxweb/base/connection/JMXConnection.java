@@ -28,6 +28,6 @@ package com.moser.jmxweb.base.connection;
  * <p/>
  * User: Nicolas Moser Date: 07.08.13 Time: 17:58
  */
-public class JMXConnection {
+public abstract class JMXConnection {
 
 }

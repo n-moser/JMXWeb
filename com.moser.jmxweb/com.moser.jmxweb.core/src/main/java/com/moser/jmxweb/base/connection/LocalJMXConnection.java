@@ -26,9 +26,11 @@ package com.moser.jmxweb.base.connection;
 /**
  * LocalJMXConnection
  * <p/>
- * User: Nicolas Moser
+ * Author: Nicolas Moser
  * Date: 07.08.13
  * Time: 22:56
  */
-public class LocalJMXConnection {
+class LocalJMXConnection extends JMXConnection {
+
+
 }
