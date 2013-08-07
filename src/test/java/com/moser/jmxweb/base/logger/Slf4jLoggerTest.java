@@ -21,28 +21,29 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.moser.jmxweb.base.exception;
+package com.moser.jmxweb.base.logger;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * JMXWebException
+ * Slf4jLoggerTest
  * <p/>
  * User: Nicolas Moser
  * Date: 07.08.13
- * Time: 00:23
+ * Time: 16:44
  */
-public class JMXWebException extends Exception {
+public class Slf4jLoggerTest {
 
-    public JMXWebException(String message) {
-        super(message);
+    @Test
+    public void testLogger() throws Exception {
+
+        JMXWebLogger logger = JMXWebLoggerFactory.getLogger(Slf4jLoggerTest.class);
+
+        Assert.assertNotNull(logger);
+        Assert.assertSame(logger.getClass(), Slf4jLogger.class);
+
+        logger.info("Test");
     }
-
-    public JMXWebException(Exception cause) {
-        super(cause);
-    }
-
-    public JMXWebException(String message, Exception cause) {
-        super(message, cause);
-    }
-
 
 }

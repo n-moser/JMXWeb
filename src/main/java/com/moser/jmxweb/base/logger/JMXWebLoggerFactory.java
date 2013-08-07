@@ -24,21 +24,17 @@
 package com.moser.jmxweb.base.logger;
 
 /**
- * JMXWebLoggerTest
+ * JMXWebLoggerFactory
  * <p/>
  * User: Nicolas Moser
  * Date: 07.08.13
- * Time: 00:27
+ * Time: 16:35
  */
-public class JMXWebLoggerTest {
+public class JMXWebLoggerFactory {
 
-    @Before
-    public void setUp() throws Exception {
-
+    public static JMXWebLogger getLogger(Class<?> loggingClass) {
+        return new Slf4jLogger(loggingClass);
     }
 
-    @After
-    public void tearDown() throws Exception {
 
-    }
 }

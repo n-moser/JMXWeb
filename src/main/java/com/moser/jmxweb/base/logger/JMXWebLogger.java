@@ -30,5 +30,27 @@ package com.moser.jmxweb.base.logger;
  * Date: 07.08.13
  * Time: 00:25
  */
-public class JMXWebLogger {
+public interface JMXWebLogger {
+
+    void error(String message, Object... parameters);
+
+    void error(Exception exception, String message, Object... parameters);
+
+    void warn(String message, Object... parameters);
+
+    void warn(Exception exception, String message, Object... parameters);
+
+    void info(String message, Object... parameters);
+
+    void info(Exception exception, String message, Object... parameters);
+
+    void debug(String message, Object... parameters);
+
+    void debug(Exception exception, String message, Object... parameters);
+
+    void trace(String message, Object... parameters);
+
+    void trace(Exception exception, String message, Object... parameters);
+
+
 }
