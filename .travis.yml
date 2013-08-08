@@ -1,5 +1,4 @@
 language: java
-jdk:
-  - oraclejdk6
+jdk: oraclejdk6
 
 before_script: cd com.moser.jmxweb
