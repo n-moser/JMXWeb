@@ -21,20 +21,36 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.moser.jmxweb.core.connection;
+package com.moser.jmxweb.core.mbean;
 
-import javax.management.MBeanServer;
-import java.util.List;
+import org.junit.Test;
+
+import java.util.Map;
 
 /**
- * JMXConnection
+ * JMXServerTest
  * <p/>
  * Author: Nicolas Moser
- * Date: 08.08.13
- * Time: 12:42
+ * Date: 09.08.13
+ * Time: 11:58
  */
-public interface JMXConnection {
+public class JMXServerTest {
 
-    List<MBeanServer> getMBeanServers() throws JMXConnectionException;
+    @Test
+    public void testDomains() throws Exception {
+
+        JMXServer server = new JMXServer();
+        Map<String, MBeanDomain> domains = server.getDomains();
+
+        System.out.println(domains.values());
+
+        for (MBeanDomain domain : domains.values()) {
+            System.out.println(domain);
+            for (MBean mbean : domain.getAllMbeans()) {
+                System.out.println("\t- " + mbean);
+            }
+            System.out.println();
+        }
+    }
 
 }

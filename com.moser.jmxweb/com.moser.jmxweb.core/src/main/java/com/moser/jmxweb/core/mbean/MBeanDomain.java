@@ -21,41 +21,67 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.moser.jmxweb.core.connection;
+package com.moser.jmxweb.core.mbean;
 
-import javax.management.MBeanServer;
-import javax.management.MBeanServerFactory;
-import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * LocalJMXConnection
+ * MBeanDomain
  * <p/>
  * Author: Nicolas Moser
- * Date: 07.08.13
- * Time: 22:56
+ * Date: 09.08.13
+ * Time: 11:28
  */
-class LocalJMXConnection extends JMXConnectionSupport implements JMXConnection {
+public class MBeanDomain {
 
+    private String name;
+    private Map<String, List<MBean>> mbeanMap = new HashMap<String, List<MBean>>();
 
-    @Override
-    public List<MBeanServer> getMBeanServers() throws JMXConnectionException {
+    public MBeanDomain() {
+    }
 
-        List<MBeanServer> servers = new ArrayList<MBeanServer>();
+    public MBeanDomain(String name) {
+        this.name = name;
+    }
 
-        try {
-            List<MBeanServer> registeredServers = MBeanServerFactory.findMBeanServer(null);
+    public String getName() {
+        return name;
+    }
 
-            if (registeredServers == null || registeredServers.isEmpty()) {
-                servers.add(ManagementFactory.getPlatformMBeanServer());
-            } else {
-                servers.addAll(registeredServers);
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<MBean> getAllMbeans() {
+
+        List<MBean> mbeans = new ArrayList<MBean>();
+
+        for (Map.Entry<String, List<MBean>> entry : mbeanMap.entrySet()) {
+            List<MBean> entryMbeans = entry.getValue();
+            if (entryMbeans != null) {
+                mbeans.addAll(entryMbeans);
             }
-        } catch (Exception e) {
-            throw new JMXConnectionException("Error initializing local MBean Servers.", e);
         }
 
-        return servers;
+        return mbeans;
+    }
+
+    public List<MBean> getMbeans(String type) {
+        List<MBean> mBeans = mbeanMap.get(type);
+
+        if (mBeans == null) {
+            mBeans = new ArrayList<MBean>();
+            this.mbeanMap.put(type, mBeans);
+        }
+
+        return mBeans;
+    }
+
+    @Override
+    public String toString() {
+        return this.getName();
     }
 }

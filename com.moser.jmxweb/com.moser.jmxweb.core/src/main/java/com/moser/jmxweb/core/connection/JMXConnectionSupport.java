@@ -23,18 +23,11 @@
 
 package com.moser.jmxweb.core.connection;
 
-import javax.management.MBeanServer;
-import java.util.List;
-
 /**
  * JMXConnection
  * <p/>
- * Author: Nicolas Moser
- * Date: 08.08.13
- * Time: 12:42
+ * User: Nicolas Moser Date: 07.08.13 Time: 17:58
  */
-public interface JMXConnection {
-
-    List<MBeanServer> getMBeanServers() throws JMXConnectionException;
+public abstract class JMXConnectionSupport {
 
 }

@@ -21,20 +21,49 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.moser.jmxweb.core.connection;
+package com.moser.jmxweb.core.mbean;
 
-import javax.management.MBeanServer;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * JMXConnection
+ * MBeanOperation
  * <p/>
  * Author: Nicolas Moser
- * Date: 08.08.13
- * Time: 12:42
+ * Date: 09.08.13
+ * Time: 11:15
  */
-public interface JMXConnection {
+public class MBeanOperation {
 
-    List<MBeanServer> getMBeanServers() throws JMXConnectionException;
+    private String name;
+    private String returnType;
+    private List<MBeanParameter> parameters;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getReturnType() {
+        return returnType;
+    }
+
+    public void setReturnType(String returnType) {
+        this.returnType = returnType;
+    }
+
+    public List<MBeanParameter> getParameters() {
+        if (parameters == null) {
+            parameters = new ArrayList<MBeanParameter>();
+        }
+        return parameters;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

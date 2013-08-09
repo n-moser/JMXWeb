@@ -37,7 +37,6 @@ import java.util.Arrays;
  */
 class Slf4jLogger implements JMXWebLogger {
 
-    private final Class<?> loggingClass;
     private final Logger logger;
 
     /**
@@ -46,7 +45,6 @@ class Slf4jLogger implements JMXWebLogger {
      * @param loggingClass the logging class
      */
     public Slf4jLogger(Class<?> loggingClass) {
-        this.loggingClass = loggingClass;
         this.logger = LoggerFactory.getLogger(loggingClass);
     }
 
@@ -95,6 +93,11 @@ class Slf4jLogger implements JMXWebLogger {
         this.logger.trace(message, createParameters(null, parameters));
     }
 
+    @Override
+    public void trace(Exception exception, String message, Object... parameters) {
+        this.logger.trace(message, createParameters(exception, parameters));
+    }
+
     /**
      * Create the parameters array.
      *
@@ -108,11 +111,6 @@ class Slf4jLogger implements JMXWebLogger {
         clonedParameters[clonedParameters.length - 1] = exception;
 
         return clonedParameters;
-    }
-
-    @Override
-    public void trace(Exception exception, String message, Object... parameters) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
 }

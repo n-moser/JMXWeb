@@ -21,20 +21,21 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.moser.jmxweb.core.connection;
-
-import javax.management.MBeanServer;
-import java.util.List;
+package com.moser.jmxweb.core.mbean;
 
 /**
- * JMXConnection
+ * MBeanParameter
  * <p/>
  * Author: Nicolas Moser
- * Date: 08.08.13
- * Time: 12:42
+ * Date: 09.08.13
+ * Time: 11:18
  */
-public interface JMXConnection {
+public class MBeanParameter {
 
-    List<MBeanServer> getMBeanServers() throws JMXConnectionException;
+    private String name;
+
+    private String type;
+
+    private String description;
 
 }

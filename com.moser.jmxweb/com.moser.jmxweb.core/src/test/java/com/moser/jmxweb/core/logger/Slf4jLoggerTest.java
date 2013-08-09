@@ -43,7 +43,11 @@ public class Slf4jLoggerTest {
         Assert.assertNotNull(logger);
         Assert.assertSame(logger.getClass(), Slf4jLogger.class);
 
-        logger.info("Test");
+        logger.error("Test Error");
+        logger.warn("Test Warn");
+        logger.info("Test Info");
+        logger.debug("Test Debug");
+        logger.trace("Test Trace");
     }
 
 }

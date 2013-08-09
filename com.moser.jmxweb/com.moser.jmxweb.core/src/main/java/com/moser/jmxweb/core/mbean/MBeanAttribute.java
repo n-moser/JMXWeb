@@ -21,20 +21,65 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.moser.jmxweb.core.connection;
-
-import javax.management.MBeanServer;
-import java.util.List;
+package com.moser.jmxweb.core.mbean;
 
 /**
- * JMXConnection
+ * MBeanAttribute
  * <p/>
  * Author: Nicolas Moser
- * Date: 08.08.13
- * Time: 12:42
+ * Date: 09.08.13
+ * Time: 11:15
  */
-public interface JMXConnection {
+public class MBeanAttribute {
 
-    List<MBeanServer> getMBeanServers() throws JMXConnectionException;
+    private String name;
+    private String description;
+    private String type;
+    private String value;
+    private boolean readOnly;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
