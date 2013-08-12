@@ -1,3 +1,5 @@
+
+
 /*
  * The MIT License (MIT)
  *
@@ -21,24 +23,10 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-subprojects {
+apply plugin: 'idea'
 
-    version = '0.0.1'
-
-    apply from: "$rootDir/gradle/java.gradle"
-    apply from: "$rootDir/gradle/test.gradle"
-    apply from: "$rootDir/gradle/eclipse.gradle"
-    apply from: "$rootDir/gradle/idea.gradle"
-    apply from: "$rootDir/gradle/check.gradle"
-
-    repositories {
-        mavenCentral()
+idea {
+    module {
+        scopes.PROVIDED.plus += configurations.provided
     }
-
-    dependencies {
-        provided group: 'org.slf4j', name: 'slf4j-api', version: '1.7.+'
-        testRuntime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.+'
-        testCompile group: 'junit', name: 'junit', version: '4.+'
-    }
-
 }

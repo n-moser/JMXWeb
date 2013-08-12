@@ -1,3 +1,4 @@
+
 /*
  * The MIT License (MIT)
  *
@@ -21,24 +22,24 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-subprojects {
+apply plugin: 'java'
 
-    version = '0.0.1'
+sourceCompatibility = 1.6
 
-    apply from: "$rootDir/gradle/java.gradle"
-    apply from: "$rootDir/gradle/test.gradle"
-    apply from: "$rootDir/gradle/eclipse.gradle"
-    apply from: "$rootDir/gradle/idea.gradle"
-    apply from: "$rootDir/gradle/check.gradle"
+configurations {
+    provided
+}
 
-    repositories {
-        mavenCentral()
+sourceSets.main.compileClasspath += configurations.provided
+sourceSets.test.compileClasspath += configurations.provided
+
+tasks.withType(Compile) {
+    options.debug = true
+    options.compilerArgs = ["-g"]
+}
+
+jar {
+    manifest {
+        attributes("Implementation-Title": project.name, "Implementation-Version": version, "Built-By": System.getProperty('user.name'), "Built-Date": new Date(), 'Built-JDK': System.getProperty('java.version'))
     }
-
-    dependencies {
-        provided group: 'org.slf4j', name: 'slf4j-api', version: '1.7.+'
-        testRuntime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.+'
-        testCompile group: 'junit', name: 'junit', version: '4.+'
-    }
-
 }
