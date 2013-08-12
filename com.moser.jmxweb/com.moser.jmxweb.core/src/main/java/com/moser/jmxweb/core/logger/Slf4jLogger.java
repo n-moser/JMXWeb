@@ -50,52 +50,52 @@ class Slf4jLogger implements JMXWebLogger {
 
     @Override
     public void error(String message, Object... parameters) {
-        this.logger.error(message, createParameters(null, parameters));
+        this.logger.error(message, this.createParameters(null, parameters));
     }
 
     @Override
     public void error(Exception exception, String message, Object... parameters) {
-        this.logger.error(message, createParameters(exception, parameters));
+        this.logger.error(message, this.createParameters(exception, parameters));
     }
 
     @Override
     public void warn(String message, Object... parameters) {
-        this.logger.warn(message, createParameters(null, parameters));
+        this.logger.warn(message, this.createParameters(null, parameters));
     }
 
     @Override
     public void warn(Exception exception, String message, Object... parameters) {
-        this.logger.warn(message, createParameters(exception, parameters));
+        this.logger.warn(message, this.createParameters(exception, parameters));
     }
 
     @Override
     public void info(String message, Object... parameters) {
-        this.logger.info(message, createParameters(null, parameters));
+        this.logger.info(message, this.createParameters(null, parameters));
     }
 
     @Override
     public void info(Exception exception, String message, Object... parameters) {
-        this.logger.info(message, createParameters(exception, parameters));
+        this.logger.info(message, this.createParameters(exception, parameters));
     }
 
     @Override
     public void debug(String message, Object... parameters) {
-        this.logger.debug(message, createParameters(null, parameters));
+        this.logger.debug(message, this.createParameters(null, parameters));
     }
 
     @Override
     public void debug(Exception exception, String message, Object... parameters) {
-        this.logger.debug(message, createParameters(exception, parameters));
+        this.logger.debug(message, this.createParameters(exception, parameters));
     }
 
     @Override
     public void trace(String message, Object... parameters) {
-        this.logger.trace(message, createParameters(null, parameters));
+        this.logger.trace(message, this.createParameters(null, parameters));
     }
 
     @Override
     public void trace(Exception exception, String message, Object... parameters) {
-        this.logger.trace(message, createParameters(exception, parameters));
+        this.logger.trace(message, this.createParameters(exception, parameters));
     }
 
     /**

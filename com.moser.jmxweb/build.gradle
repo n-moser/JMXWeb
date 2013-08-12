@@ -1,100 +1,71 @@
-
 subprojects {
-	apply plugin: 'java'
-	apply plugin: 'idea'
-	apply plugin: 'eclipse'
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
 
-	sourceCompatibility = 1.6
-	version = '0.0.1'
-    
+    sourceCompatibility = 1.6
+    version = '0.0.1'
+
     repositories {
-       mavenCentral()
+        mavenCentral()
     }
-	
-	configurations {
-		provided
-	}
-	
-	dependencies {
-		compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.+'
-		testRuntime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.+'
-		testCompile group: 'junit', name: 'junit', version: '4.+'
-	}
-	
-	sourceSets.main.compileClasspath += configurations.provided
-	sourceSets.test.compileClasspath += configurations.provided
-	
-	eclipse {
-		classpath {
-			plusConfigurations += configurations.provided 
-		}
-	}
 
- /*   idea {
+    configurations {
+        provided
+    }
+
+    dependencies {
+        provided group: 'org.slf4j', name: 'slf4j-api', version: '1.7.+'
+        testRuntime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.+'
+        testCompile group: 'junit', name: 'junit', version: '4.+'
+    }
+
+    sourceSets.main.compileClasspath += configurations.provided
+    sourceSets.test.compileClasspath += configurations.provided
+
+    eclipse {
         classpath {
             plusConfigurations += configurations.provided
         }
     }
 
-    idea.module.iml {
-    	beforeMerged { module ->
-    		module.dependencies.clear()
-    	}
-    	whenMerged { module ->
-    		module.dependencies*.exported = true
-    	}
-    }*/
+    idea {
+        module {
+            scopes.PROVIDED.plus += configurations.provided
+        }
+    }
 
-	jar {
-		manifest {
-			attributes("Implementation-Title": project.name, "Implementation-Version": version, "Built-By": System.getProperty('user.name'), "Built-Date": new Date(), 'Built-JDK': System.getProperty('java.version'))			
-		}
-	}
-	
+    jar {
+        manifest {
+            attributes("Implementation-Title": project.name, "Implementation-Version": version, "Built-By": System.getProperty('user.name'), "Built-Date": new Date(), 'Built-JDK': System.getProperty('java.version'))
+        }
+    }
 
-	test {
+    test {
 
-		// explicitly include or exclude tests
-		include 'com/moser/jmxweb/**'
+        // explicitly include or exclude tests
+        include 'com/moser/jmxweb/**'
 
-		// show standard out and standard error of the test JVM(s) on the console
-		// testLogging.showStandardStreams = true
+        // show standard out and standard error of the test JVM(s) on the console
+        // testLogging.showStandardStreams = true
 
-		// set heap size for the test JVM(s)
-		minHeapSize = "128m"
-		maxHeapSize = "512m"
+        // set heap size for the test JVM(s)
+        minHeapSize = "128m"
+        maxHeapSize = "512m"
 
-		// set JVM arguments for the test JVM(s)
-		jvmArgs '-XX:MaxPermSize=256m'
+        // set JVM arguments for the test JVM(s)
+        jvmArgs '-XX:MaxPermSize=256m'
 
-		// listen to events in the test execution lifecycle
-		beforeTest { descriptor ->
-			logger.lifecycle("Running test: " + descriptor)
-		}
+        // listen to events in the test execution lifecycle
+        beforeTest { descriptor ->
+            logger.lifecycle("Running test: " + descriptor)
+        }
 
-		// listen to standard out and standard error of the test JVM(s)
-		onOutput { descriptor, event ->
-			// logger.lifecycle("\tTest: " + descriptor + " produced standard out/err: " + event.message)
-			// logger.debug("\t" + event.message)
-		}
-	}
-	
-	//idea.module.iml {
-	//	beforeMerged { module ->
-	//		module.dependencies.clear()
-	//	}
-	//	whenMerged { module ->
-	//		module.dependencies*.exported = true
-	//	}
-	//}
-	
-	//idea.project.ipr {
-	//	beforeMerged { project ->
-	//		project.modulePaths.clear()
-	//	}
-	//	withXml { provider ->
-	//		provider.node.component.find { it.@name == 'VcsDirectoryMappings' }.mapping.@vcs = 'Git'
-	//	}
-	//}
+        // listen to standard out and standard error of the test JVM(s)
+        onOutput { descriptor, event ->
+            // logger.lifecycle("\tTest: " + descriptor + " produced standard out/err: " + event.message)
+            // logger.debug("\t" + event.message)
+        }
+    }
 
 }
