@@ -40,7 +40,7 @@ public class MBeanAttribute {
     private final MBeanAttributeInfo info;
     private final MBean mBean;
 
-    public MBeanAttribute(MBean mBean, MBeanAttributeInfo attributeInfo) {
+    MBeanAttribute(MBean mBean, MBeanAttributeInfo attributeInfo) {
         this.mBean = mBean;
         this.info = attributeInfo;
     }

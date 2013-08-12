@@ -43,7 +43,7 @@ public class MBeanDomain {
      *
      * @param name the domain name
      */
-    public MBeanDomain(String name) {
+    MBeanDomain(String name) {
         this.name = name;
         this.mbeanMap = new HashMap<String, List<MBean>>();
     }

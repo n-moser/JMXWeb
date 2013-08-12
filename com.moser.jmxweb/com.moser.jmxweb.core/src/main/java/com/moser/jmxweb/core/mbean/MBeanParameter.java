@@ -36,7 +36,7 @@ public class MBeanParameter {
 
     private final MBeanParameterInfo info;
 
-    public MBeanParameter(MBeanParameterInfo parameterInfo) {
+    MBeanParameter(MBeanParameterInfo parameterInfo) {
         this.info = parameterInfo;
     }
 

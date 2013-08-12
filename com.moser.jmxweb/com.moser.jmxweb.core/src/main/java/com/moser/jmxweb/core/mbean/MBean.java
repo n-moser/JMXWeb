@@ -51,10 +51,11 @@ public class MBean {
      * @param objectInstance the object instance
      * @param mBeanInfo      the mbean information
      */
-    public MBean(ObjectInstance objectInstance, MBeanInfo mBeanInfo) {
+    MBean(ObjectInstance objectInstance, MBeanInfo mBeanInfo, MBeanServer mBeanServer) {
         this.objectInstance = objectInstance;
         this.objectName = objectInstance.getObjectName();
         this.mbeanInfo = mBeanInfo;
+        this.mbeanServer = mBeanServer;
 
         this.attributes = new ArrayList<MBeanAttribute>();
         for (MBeanAttributeInfo attributeInfo : this.mbeanInfo.getAttributes()) {

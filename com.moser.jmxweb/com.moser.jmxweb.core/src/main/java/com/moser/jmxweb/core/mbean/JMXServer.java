@@ -98,7 +98,7 @@ public class JMXServer {
 
                 try {
                     MBeanInfo mBeanInfo = mBeanServer.getMBeanInfo(objectName);
-                    MBean mbean = new MBean(objectInstance, mBeanInfo);
+                    MBean mbean = new MBean(objectInstance, mBeanInfo, mBeanServer);
 
                     MBeanDomain domain = domains.get(mbean.getDomainName());
                     domain.putMBean(mbean);

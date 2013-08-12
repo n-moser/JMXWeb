@@ -50,7 +50,7 @@ public class MBeanOperation {
      * @param mBean         the MBean instance
      * @param operationInfo the operation information
      */
-    public MBeanOperation(MBean mBean, MBeanOperationInfo operationInfo) {
+    MBeanOperation(MBean mBean, MBeanOperationInfo operationInfo) {
 
         this.mBean = mBean;
         this.info = operationInfo;
