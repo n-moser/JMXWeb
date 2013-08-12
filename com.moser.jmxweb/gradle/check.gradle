@@ -21,6 +21,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+apply plugin: 'findbugs'
 apply plugin: 'jacoco'
 apply plugin: 'pmd'
 
@@ -28,5 +29,9 @@ jacocoTestReport.dependsOn(build)
 
 pmd {
     ruleSets = ["basic", "braces", "codesize", "coupling", "design", "naming"]
+    ignoreFailures = true
+}
+
+findbugs {
     ignoreFailures = true
 }
