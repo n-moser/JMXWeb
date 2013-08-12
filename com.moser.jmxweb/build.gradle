@@ -25,15 +25,14 @@ subprojects {
 
     version = '0.0.1'
 
+    apply from: "$rootDir/gradle/repositories.gradle"
+
     apply from: "$rootDir/gradle/java.gradle"
     apply from: "$rootDir/gradle/test.gradle"
-    apply from: "$rootDir/gradle/eclipse.gradle"
-    apply from: "$rootDir/gradle/idea.gradle"
     apply from: "$rootDir/gradle/check.gradle"
 
-    repositories {
-        mavenCentral()
-    }
+    apply from: "$rootDir/gradle/eclipse.gradle"
+    apply from: "$rootDir/gradle/idea.gradle"
 
     dependencies {
         provided group: 'org.slf4j', name: 'slf4j-api', version: '1.7.+'
