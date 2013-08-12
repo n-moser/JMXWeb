@@ -23,6 +23,8 @@
 
 package com.moser.jmxweb.core.mbean;
 
+import javax.management.MBeanParameterInfo;
+
 /**
  * MBeanParameter
  * <p/>
@@ -32,10 +34,26 @@ package com.moser.jmxweb.core.mbean;
  */
 public class MBeanParameter {
 
-    private String name;
+    private final MBeanParameterInfo info;
 
-    private String type;
+    public MBeanParameter(MBeanParameterInfo parameterInfo) {
+        this.info = parameterInfo;
+    }
 
-    private String description;
+    public String getName() {
+        return this.info.getName();
+    }
 
+    public String getType() {
+        return this.info.getType();
+    }
+
+    public String getDescription() {
+        return this.info.getDescription();
+    }
+
+    @Override
+    public String toString() {
+        return this.getType() + " " + this.getName();
+    }
 }

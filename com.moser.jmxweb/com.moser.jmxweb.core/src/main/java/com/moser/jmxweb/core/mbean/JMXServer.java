@@ -29,6 +29,7 @@ import com.moser.jmxweb.core.connection.JMXConnectionFactory;
 import com.moser.jmxweb.core.logger.JMXWebLogger;
 import com.moser.jmxweb.core.logger.JMXWebLoggerFactory;
 
+import javax.management.MBeanInfo;
 import javax.management.MBeanServer;
 import javax.management.ObjectInstance;
 import javax.management.ObjectName;
@@ -37,15 +38,14 @@ import java.util.*;
 /**
  * MBeanServer
  * <p/>
- * Author: Nicolas Moser
- * Date: 08.08.13
- * Time: 23:58
+ * Author: Nicolas Moser Date: 08.08.13 Time: 23:58
  */
 public class JMXServer {
 
     private final JMXConnection connection;
     private final Map<String, MBeanDomain> domains = new HashMap<String, MBeanDomain>();
-    private JMXWebLogger logger = JMXWebLoggerFactory.getLogger(JMXServer.class);
+    private JMXWebLogger logger = JMXWebLoggerFactory
+            .getLogger(JMXServer.class);
 
     /**
      * Creates a new JMXServer instance based on the default connection.
@@ -89,18 +89,22 @@ public class JMXServer {
 
             }
 
-            Set<ObjectInstance> objectInstances = mBeanServer.queryMBeans(null, null);
+            Set<ObjectInstance> objectInstances = mBeanServer.queryMBeans(null,
+                    null);
 
             for (ObjectInstance objectInstance : objectInstances) {
+
                 ObjectName objectName = objectInstance.getObjectName();
 
-                MBean mbean = new MBean();
-                mbean.setName(objectName.getCanonicalName());
+                try {
+                    MBeanInfo mBeanInfo = mBeanServer.getMBeanInfo(objectName);
+                    MBean mbean = new MBean(objectInstance, mBeanInfo);
 
-                MBeanDomain domain = domains.get(objectName.getDomain());
-
-                logger.info(objectName.getKeyPropertyListString());
-                domain.getMbeans(objectName.getKeyProperty("type")).add(mbean);
+                    MBeanDomain domain = domains.get(mbean.getDomainName());
+                    domain.putMBean(mbean);
+                } catch (Exception e) {
+                    throw new JMXConnectionException("Cannot find MBean Info of MBean " + objectName + ".", e);
+                }
             }
         }
     }

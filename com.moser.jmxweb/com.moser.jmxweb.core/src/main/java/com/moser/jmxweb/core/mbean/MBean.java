@@ -23,6 +23,7 @@
 
 package com.moser.jmxweb.core.mbean;
 
+import javax.management.*;
 import java.util.*;
 
 /**
@@ -34,52 +35,119 @@ import java.util.*;
  */
 public class MBean {
 
-    private String name;
+    private static final String PROPERTY_TYPE = "type";
+    private static final String PROPERTY_NAME = "name";
+    private final ObjectInstance objectInstance;
+    private final ObjectName objectName;
+    private final MBeanInfo mbeanInfo;
     private Map<String, String> properties;
     private List<MBeanAttribute> attributes;
     private List<MBeanOperation> operations;
+    private MBeanServer mbeanServer;
 
+    /**
+     * Creates a new MBean instance.
+     *
+     * @param objectInstance the object instance
+     * @param mBeanInfo      the mbean information
+     */
+    public MBean(ObjectInstance objectInstance, MBeanInfo mBeanInfo) {
+        this.objectInstance = objectInstance;
+        this.objectName = objectInstance.getObjectName();
+        this.mbeanInfo = mBeanInfo;
 
-    public MBean() {
-        this(null);
-    }
-
-    public MBean(Map<String, String> properties) {
-        if (properties == null) {
-            this.properties = Collections.emptyMap();
-        } else {
-            this.properties = new HashMap<String, String>(properties);
+        this.attributes = new ArrayList<MBeanAttribute>();
+        for (MBeanAttributeInfo attributeInfo : this.mbeanInfo.getAttributes()) {
+            this.attributes.add(new MBeanAttribute(this, attributeInfo));
         }
+
+        this.operations = new ArrayList<MBeanOperation>();
+        for (MBeanOperationInfo operationInfo : this.mbeanInfo.getOperations()) {
+            this.operations.add(new MBeanOperation(this, operationInfo));
+        }
+
+        this.properties = new HashMap<String, String>();
+        this.properties.putAll(objectName.getKeyPropertyList());
     }
 
+    /**
+     * Getter for the MBean name.
+     *
+     * @return the name of the mbean
+     */
     public String getName() {
-        return name;
+        return this.objectName.getCanonicalName();
     }
 
-    public void setName(String name) {
-        this.name = name;
+    /**
+     * Getter for the MBean description.
+     *
+     * @return the description of the mbean
+     */
+    public String getDescription() {
+        return this.mbeanInfo.getDescription();
     }
 
+    /**
+     * Getter for the Domain name.
+     *
+     * @return the name of the mbeans domain
+     */
+    public String getDomainName() {
+        return this.objectName.getDomain();
+    }
+
+    /**
+     * Getter for the MBean type.
+     *
+     * @return the MBean type
+     */
+    public String getType() {
+        return this.properties.get(PROPERTY_TYPE);
+    }
+
+    /**
+     * Getter for the MBean object name.
+     *
+     * @return the object name
+     */
+    public ObjectName getObjectName() {
+        return this.objectName;
+    }
+
+    /**
+     * Getter for the MBean Attributes.
+     *
+     * @return the list of attributes
+     */
     public List<MBeanAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<MBeanAttribute>();
-        }
-        return attributes;
+        return Collections.unmodifiableList(attributes);
     }
 
+    /**
+     * Getter for the MBean Operations.
+     *
+     * @return the list of operations
+     */
     public List<MBeanOperation> getOperations() {
-        if (operations == null) {
-            operations = new ArrayList<MBeanOperation>();
-        }
-        return operations;
+        return Collections.unmodifiableList(operations);
     }
 
+    /**
+     * Getter for the MBean Properties.
+     *
+     * @return the list of properties
+     */
     public Map<String, String> getProperties() {
-        return new HashMap<String, String>(properties);
+        return Collections.unmodifiableMap(properties);
     }
 
     @Override
     public String toString() {
         return this.getName();
+    }
+
+    public MBeanServer getMbeanServer() {
+        return mbeanServer;
     }
 }

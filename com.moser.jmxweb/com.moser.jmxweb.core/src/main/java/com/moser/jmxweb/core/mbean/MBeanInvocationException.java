@@ -21,26 +21,28 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.moser.jmxweb.core.connection;
+package com.moser.jmxweb.core.mbean;
 
-import javax.management.MBeanServer;
-import java.util.List;
+import com.moser.jmxweb.core.exception.JMXWebException;
 
 /**
- * JMXConnection
+ * JMXConnectionException
  * <p/>
- * Author: Nicolas Moser
- * Date: 08.08.13
- * Time: 12:42
+ * User: Nicolas Moser
+ * Date: 07.08.13
+ * Time: 17:58
  */
-public interface JMXConnection {
+public class MBeanInvocationException extends JMXWebException {
 
-    /**
-     * Retrieve the MBean Servers.
-     *
-     * @return the list of MBean servers
-     * @throws JMXConnectionException when the connection to the mbean servers cannot be established
-     */
-    List<MBeanServer> getMBeanServers() throws JMXConnectionException;
+    public MBeanInvocationException(String message) {
+        super(message);
+    }
 
+    public MBeanInvocationException(Exception cause) {
+        super(cause);
+    }
+
+    public MBeanInvocationException(String message, Exception cause) {
+        super(message, cause);
+    }
 }

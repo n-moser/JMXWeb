@@ -45,10 +45,25 @@ public class JMXServerTest {
         System.out.println(domains.values());
 
         for (MBeanDomain domain : domains.values()) {
+
             System.out.println(domain);
+
             for (MBean mbean : domain.getAllMbeans()) {
                 System.out.println("\t- " + mbean);
+
+                for(MBeanAttribute attribute : mbean.getAttributes()) {
+                    System.out.println("\t\t- " + attribute);
+                }
+
+                System.out.println();
+
+                for(MBeanOperation operation : mbean.getOperations()) {
+                    System.out.println("\t\t- " + operation);
+                }
+
+                System.out.println();
             }
+
             System.out.println();
         }
     }

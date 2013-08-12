@@ -23,7 +23,12 @@
 
 package com.moser.jmxweb.core.mbean;
 
+import javax.management.MBeanOperationInfo;
+import javax.management.MBeanParameterInfo;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,35 +40,118 @@ import java.util.List;
  */
 public class MBeanOperation {
 
-    private String name;
-    private String returnType;
+    private final MBeanOperationInfo info;
+    private final MBean mBean;
     private List<MBeanParameter> parameters;
 
-    public String getName() {
-        return name;
-    }
+    /**
+     * Creates a new MBean operation instance.
+     *
+     * @param mBean         the MBean instance
+     * @param operationInfo the operation information
+     */
+    public MBeanOperation(MBean mBean, MBeanOperationInfo operationInfo) {
 
-    public void setName(String name) {
-        this.name = name;
-    }
+        this.mBean = mBean;
+        this.info = operationInfo;
 
-    public String getReturnType() {
-        return returnType;
-    }
-
-    public void setReturnType(String returnType) {
-        this.returnType = returnType;
-    }
-
-    public List<MBeanParameter> getParameters() {
-        if (parameters == null) {
-            parameters = new ArrayList<MBeanParameter>();
+        this.parameters = new ArrayList<MBeanParameter>();
+        for (MBeanParameterInfo parameterInfo : this.info.getSignature()) {
+            this.parameters.add(new MBeanParameter(parameterInfo));
         }
-        return parameters;
+    }
+
+    /**
+     * Getter for the operation name.
+     *
+     * @return the name
+     */
+    public String getName() {
+        return this.info.getName();
+    }
+
+    /**
+     * Getter for the operation description.
+     *
+     * @return the description
+     */
+    public String getDescription() {
+        return this.info.getDescription();
+    }
+
+    /**
+     * Getter for the operation type.
+     *
+     * @return the return type
+     */
+    public String getReturnType() {
+        return this.info.getReturnType();
+    }
+
+    /**
+     * Getter for the operation parameters.
+     *
+     * @return the unmodifiable list of parameters
+     */
+    public List<MBeanParameter> getParameters() {
+        return Collections.unmodifiableList(this.parameters);
+    }
+
+    /**
+     * Invoke the MBean Operation with the given arguments.
+     *
+     * @param arguments the invocation arguments
+     * @return the operation result
+     * @throws MBeanInvocationException when the operation cannot be invoked or raised an exception
+     */
+    public Object invoke(Object... arguments) throws MBeanInvocationException {
+        MBeanServer mbeanServer = this.mBean.getMbeanServer();
+        ObjectName objectName = mBean.getObjectName();
+
+        try {
+            String[] parameters = new String[this.parameters.size()];
+            for (int i = 0; i < parameters.length; i++) {
+                MBeanParameter parameter = this.parameters.get(i);
+
+                if (parameter != null) {
+                    parameters[i] = parameter.getName();
+                }
+            }
+
+            return mbeanServer.invoke(objectName, this.getName(), arguments, parameters);
+        } catch (Exception e) {
+            throw new MBeanInvocationException("Error retrieving Attribute value of " + this.getName() + ".", e);
+        }
     }
 
     @Override
     public String toString() {
-        return getName();
+        StringBuilder result = new StringBuilder();
+
+        if (this.getReturnType() == null) {
+            result.append("void");
+        } else {
+            result.append(this.getReturnType());
+        }
+
+        result.append(' ');
+        result.append(this.getName());
+        result.append(' ');
+        result.append('(');
+
+        List<MBeanParameter> parameters = this.getParameters();
+        for (int i = 0; i < parameters.size(); i++) {
+            MBeanParameter parameter = parameters.get(i);
+            result.append(parameter);
+
+            if (i < parameters.size() - 1) {
+                result.append(',');
+                result.append(' ');
+            }
+        }
+
+        result.append(')');
+
+        return result.toString();
     }
 }

@@ -23,6 +23,11 @@
 
 package com.moser.jmxweb.core.mbean;
 
+import javax.management.Attribute;
+import javax.management.MBeanAttributeInfo;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+
 /**
  * MBeanAttribute
  * <p/>
@@ -32,54 +37,57 @@ package com.moser.jmxweb.core.mbean;
  */
 public class MBeanAttribute {
 
-    private String name;
-    private String description;
-    private String type;
-    private String value;
-    private boolean readOnly;
+    private final MBeanAttributeInfo info;
+    private final MBean mBean;
 
-    public String getName() {
-        return name;
+    public MBeanAttribute(MBean mBean, MBeanAttributeInfo attributeInfo) {
+        this.mBean = mBean;
+        this.info = attributeInfo;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public boolean isReadable() {
+        return this.info.isReadable();
+    }
+
+    public boolean isWritable() {
+        return this.info.isWritable();
+    }
+
+    public String getName() {
+        return this.info.getName();
     }
 
     public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+        return this.info.getType();
     }
 
     public String getDescription() {
-        return description;
+        return this.info.getDescription();
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public Object getValue() throws MBeanInvocationException {
+        MBeanServer mbeanServer = this.mBean.getMbeanServer();
+        ObjectName objectName = mBean.getObjectName();
+        try {
+            return mbeanServer.getAttribute(objectName, this.getName());
+        } catch (Exception e) {
+            throw new MBeanInvocationException("Error retrieving Attribute value of " + this.getName() + ".", e);
+        }
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public boolean isReadOnly() {
-        return readOnly;
-    }
-
-    public void setReadOnly(boolean readOnly) {
-        this.readOnly = readOnly;
+    public void setValue(Object value) throws MBeanInvocationException {
+        MBeanServer mbeanServer = this.mBean.getMbeanServer();
+        ObjectName objectName = mBean.getObjectName();
+        try {
+            Attribute attribute = new Attribute(this.getName(), value);
+            mbeanServer.setAttribute(objectName, attribute);
+        } catch (Exception e) {
+            throw new MBeanInvocationException("Error setting Attribute value of " + this.getName() + ".", e);
+        }
     }
 
     @Override
     public String toString() {
-        return getName();
+        return this.getType() + " " + this.getName();
     }
 }

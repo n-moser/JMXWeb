@@ -23,10 +23,7 @@
 
 package com.moser.jmxweb.core.mbean;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * MBeanDomain
@@ -38,23 +35,33 @@ import java.util.Map;
 public class MBeanDomain {
 
     private String name;
-    private Map<String, List<MBean>> mbeanMap = new HashMap<String, List<MBean>>();
+    private int mbeanCount;
+    private Map<String, List<MBean>> mbeanMap;
 
-    public MBeanDomain() {
-    }
-
+    /**
+     * Creates a new domain for the given name.
+     *
+     * @param name the domain name
+     */
     public MBeanDomain(String name) {
         this.name = name;
+        this.mbeanMap = new HashMap<String, List<MBean>>();
     }
 
+    /**
+     * Getter for the domain Name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    /**
+     * Returns an unmodifyable list of all contained MBean instances.
+     *
+     * @return the list of MBeans for the given type
+     */
     public List<MBean> getAllMbeans() {
 
         List<MBean> mbeans = new ArrayList<MBean>();
@@ -66,9 +73,15 @@ public class MBeanDomain {
             }
         }
 
-        return mbeans;
+        return Collections.unmodifiableList(mbeans);
     }
 
+    /**
+     * Returns an unmodifyable list of all contained MBean instances of the given type.
+     *
+     * @param type the MBean type
+     * @return the list of MBeans for the given type
+     */
     public List<MBean> getMbeans(String type) {
         List<MBean> mBeans = mbeanMap.get(type);
 
@@ -77,11 +90,29 @@ public class MBeanDomain {
             this.mbeanMap.put(type, mBeans);
         }
 
-        return mBeans;
+        return Collections.unmodifiableList(mBeans);
+    }
+
+    /**
+     * Stores the given MBean in the domain.
+     *
+     * @param mbean the mbean to add
+     */
+    void putMBean(MBean mbean) {
+        List<MBean> mBeans = mbeanMap.get(mbean.getType());
+
+        if (mBeans == null) {
+            mBeans = new ArrayList<MBean>();
+            this.mbeanMap.put(mbean.getType(), mBeans);
+        }
+
+        mBeans.add(mbean);
+
+        this.mbeanCount++;
     }
 
     @Override
     public String toString() {
-        return this.getName();
+        return this.getName() + " (" + mbeanCount + ")";
     }
 }
