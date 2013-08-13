@@ -21,19 +21,40 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+apply plugin: 'checkstyle'
 apply plugin: 'findbugs'
 apply plugin: 'jacoco'
 apply plugin: 'pmd'
+apply plugin: 'project-report'
 
 jacocoTestReport.dependsOn(build)
+
+checkstyle {
+    ignoreFailures = true
+    showViolations = false
+    configFile = file("$rootDir/config/checkstyle/checkstyle.xml")
+}
+
+findbugs {
+    ignoreFailures = true
+}
 
 pmd {
     ruleSets = ["basic", "braces", "codesize", "coupling", "design", "naming"]
     ignoreFailures = true
 }
 
-findbugs {
-    ignoreFailures = true
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled = true
+    }
 }
 
 tasks.withType(Pmd) {
@@ -43,9 +64,27 @@ tasks.withType(Pmd) {
     }
 }
 
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
+task checkClean (dependsOn: clean) {
+    check.execute();
+}
+
+task checkstyleReport << {
+    if (file("$buildDir/reports/checkstyle/${checkType}.xml").exists()) {
+        ant.xslt(in: "$buildDir/reports/checkstyle/${checkType}.xml",
+                style: "$rootDir/config/checkstyle/checkstyle-noframes.xsl",
+                out: "$buildDir/reports/checkstyle/${checkType}.html"
+        )
+    }
+}
+
+gradle.taskGraph.afterTask { Task task ->
+    if (task.name in ['checkstyleMain', 'checkstyleTest']) {
+        checkstyleReport {
+            def matcher = task.name =~ /^checkstyle(.*)$/
+            if (matcher.matches()) {
+                checkType = matcher.group(1).toLowerCase()
+            }
+        }
+        checkstyleReport.execute()
     }
 }
