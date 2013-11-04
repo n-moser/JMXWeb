@@ -28,4 +28,13 @@ dependencies {
 	compile project(':com.moser.jmxweb.core')
 }
 
+war {
+    archiveName = 'jmxweb.war'
+}
+
 jar.enabled = false
+
+task jettyRefresh(type:Copy, dependsOn: war) {
+    from zipTree(war.archivePath)
+    into file("${buildDir}/tmp/jettyRunWar")
+}

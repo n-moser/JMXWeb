@@ -1,4 +1,11 @@
 language: java
 jdk: oraclejdk6
 
-before_script: cd com.moser.jmxweb
+before_install:
+ - ls -llaR
+
+before_script:
+  -  cd com.moser.jmxweb
+
+script:
+  - TERM=dumb gradle check -PdebugMode=true

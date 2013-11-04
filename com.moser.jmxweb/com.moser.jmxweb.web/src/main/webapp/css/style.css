@@ -1,123 +1,46 @@
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, font, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	font-size: 100%;
-	vertical-align: baseline;
-	background: transparent;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-:focus {
-	outline: 0;
-}
-ins {
-	text-decoration: none;
-}
-del {
-	text-decoration: line-through;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-html {
-	height: 100%;
-}
-header, nav, section, article, aside, footer {
-	display: block;
-}
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2013 Nicolas Moser
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 body {
-	font: 12px/18px Arial, Tahoma, Verdana, sans-serif;
-	height: 100%;
-}
-a {
-	color: blue;
-	outline: none;
-	text-decoration: underline;
-}
-a:hover {
-	text-decoration: none;
-}
-p {
-	margin: 0 0 18px
-}
-img {
-	border: none;
-}
-input {
-	vertical-align: middle;
-}
-#wrapper {
-	width: 100%;
-	min-width: 1000px;
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
+    font: 62.5% "Trebuchet MS", sans-serif;
+    margin: 50px;
 }
 
-
-/* Header
------------------------------------------------------------------------------*/
-#header {
-	height: 150px;
-	background: #FFE680;
+.ui-tabs-panel {
+    height: 80%;
 }
 
-
-/* Middle
------------------------------------------------------------------------------*/
-#middle {
-	width: 100%;
-	padding: 0 0 50px;
-	height: 1%;
-	position: relative;
-}
-#middle:after {
-	content: '';
-	clear: both;
-	display: table;
-}
-#container {
-	width: 100%;
-	float: left;
-	overflow: hidden;
-}
-#content {
-	padding: 0 0 0 270px;
+.content {
 }
 
-
-/* Sidebar Left
------------------------------------------------------------------------------*/
-#sideLeft {
-	float: left;
-	width: 250px;
-	margin-left: -100%;
-	position: relative;
-	background: #B5E3FF;
+.domains {
+    border-right: 2px solid;
+    float: left;
+    height: 100%;
+    padding: 5 20 0 20;
+    margin-right: 20px;
 }
 
-
-/* Footer
------------------------------------------------------------------------------*/
-#footer {
-	margin: -20px auto 0;
-	min-width: 1000px;
-	height: 20px;
-	background: #BFF08E;
-	position: relative;
+.domainHeader {
+    font-weight: bold;
 }
