@@ -23,10 +23,14 @@
 
 package com.moser.jmxweb.core.mbean;
 
+import com.moser.jmxweb.core.logger.JMXWebLogger;
+import com.moser.jmxweb.core.logger.JMXWebLoggerFactory;
+
 import javax.management.Attribute;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+import java.io.Serializable;
 
 /**
  * MBeanAttribute
@@ -35,59 +39,138 @@ import javax.management.ObjectName;
  * Date: 09.08.13
  * Time: 11:15
  */
-public class MBeanAttribute {
+public class MBeanAttribute implements Serializable {
 
-    private final MBeanAttributeInfo info;
-    private final MBean mBean;
+	private final MBeanAttributeInfo info;
 
-    MBeanAttribute(MBean mBean, MBeanAttributeInfo attributeInfo) {
-        this.mBean = mBean;
-        this.info = attributeInfo;
-    }
+	private final MBean mBean;
 
-    public boolean isReadable() {
-        return this.info.isReadable();
-    }
+	private JMXWebLogger logger = JMXWebLoggerFactory.getLogger(MBeanAttribute.class);
 
-    public boolean isWritable() {
-        return this.info.isWritable();
-    }
+	/**
+	 * Creates a new MBeanAttribute instance.
+	 *
+	 * @param mBean
+	 * 		the parent mbean
+	 * @param attributeInfo
+	 * 		the attribute information
+	 */
+	MBeanAttribute(MBean mBean, MBeanAttributeInfo attributeInfo) {
 
-    public String getName() {
-        return this.info.getName();
-    }
+		this.mBean = mBean;
+		this.info = attributeInfo;
+	}
 
-    public String getType() {
-        return this.info.getType();
-    }
+	/**
+	 * Checks whether the attribute is readable or not.
+	 *
+	 * @return <b>true</b> if the attribute is readable, <b>false</b> if not
+	 */
+	public boolean isReadable() {
 
-    public String getDescription() {
-        return this.info.getDescription();
-    }
+		return this.info.isReadable();
+	}
 
-    public Object getValue() throws MBeanInvocationException {
-        MBeanServer mbeanServer = this.mBean.getMbeanServer();
-        ObjectName objectName = mBean.getObjectName();
-        try {
-            return mbeanServer.getAttribute(objectName, this.getName());
-        } catch (Exception e) {
-            throw new MBeanInvocationException("Error retrieving Attribute value of " + this.getName() + ".", e);
-        }
-    }
+	/**
+	 * Checks whether the attribute is writable or not.
+	 *
+	 * @return <b>true</b> if the attribute is writable, <b>false</b> if not
+	 */
+	public boolean isWritable() {
 
-    public void setValue(Object value) throws MBeanInvocationException {
-        MBeanServer mbeanServer = this.mBean.getMbeanServer();
-        ObjectName objectName = mBean.getObjectName();
-        try {
-            Attribute attribute = new Attribute(this.getName(), value);
-            mbeanServer.setAttribute(objectName, attribute);
-        } catch (Exception e) {
-            throw new MBeanInvocationException("Error setting Attribute value of " + this.getName() + ".", e);
-        }
-    }
+		return this.info.isWritable();
+	}
 
-    @Override
-    public String toString() {
-        return this.getType() + " " + this.getName();
-    }
+	/**
+	 * Getter for the attribute name.
+	 *
+	 * @return name of the attribute
+	 */
+	public String getName() {
+
+		return this.info.getName();
+	}
+
+	/**
+	 * Getter for the attribute type.
+	 *
+	 * @return type of the attribute
+	 */
+	public String getType() {
+
+		return this.info.getType();
+	}
+
+	/**
+	 * Getter for the attribute description.
+	 *
+	 * @return the attribute description.
+	 */
+	public String getDescription() {
+
+		return this.info.getDescription();
+	}
+
+	/**
+	 * Getter for the attribute value.
+	 *
+	 * @return the attribute value.
+	 *
+	 * @throws MBeanInvocationException
+	 * 		when the attribute cannot be retrieved
+	 */
+	public Object getValue() throws MBeanInvocationException {
+
+		MBeanServer mbeanServer = this.mBean.getMbeanServer();
+		ObjectName objectName = mBean.getObjectName();
+		try {
+			return mbeanServer.getAttribute(objectName, this.getName());
+		} catch (Exception e) {
+			throw new MBeanInvocationException("Error retrieving Attribute value of " + this.getName() + ".", e);
+		}
+	}
+
+	/**
+	 * Setter for the attribute value.
+	 *
+	 * @param value
+	 * 		the attribute value to set
+	 *
+	 * @throws MBeanInvocationException
+	 * 		when the attribute cannot be set
+	 */
+	public void setValue(Object value) throws MBeanInvocationException {
+
+		MBeanServer mbeanServer = this.mBean.getMbeanServer();
+		ObjectName objectName = mBean.getObjectName();
+		try {
+			Attribute attribute = new Attribute(this.getName(), value);
+			mbeanServer.setAttribute(objectName, attribute);
+		} catch (Exception e) {
+			throw new MBeanInvocationException("Error setting Attribute value of " + this.getName() + ".", e);
+		}
+	}
+
+	/**
+	 * Getter for the attribute value as string.
+	 *
+	 * @return the attribute value as string, if the value is null a 'null' string is returned
+	 */
+	public String getValueAsString() {
+
+		try {
+			Object value = this.getValue();
+			return String.valueOf(value);
+		} catch (MBeanInvocationException e) {
+			logger.error("Error retrieving value of MBean Attribute {}.", this.getName(), e);
+		}
+
+		return "null";
+	}
+
+	@Override
+	public String toString() {
+
+		return this.getType() + " " + this.getName();
+	}
 }

@@ -42,74 +42,78 @@ import java.util.*;
  */
 public class JMXServer {
 
-    private final JMXConnection connection;
-    private final Map<String, MBeanDomain> domains = new HashMap<String, MBeanDomain>();
-    private JMXWebLogger logger = JMXWebLoggerFactory
-            .getLogger(JMXServer.class);
+	private final JMXConnection connection;
 
-    /**
-     * Creates a new JMXServer instance based on the default connection.
-     *
-     * @throws JMXConnectionException when the connection cannot be established
-     */
-    public JMXServer() throws JMXConnectionException {
-        this(null);
-    }
+	private final Map<String, MBeanDomain> domains = new HashMap<String, MBeanDomain>();
 
-    /**
-     * Creates a new JMXServer instance based on the given connection.
-     *
-     * @param connection the connection
-     * @throws JMXConnectionException when the connection cannot be established
-     */
-    public JMXServer(JMXConnection connection) throws JMXConnectionException {
+	private JMXWebLogger logger = JMXWebLoggerFactory.getLogger(JMXServer.class);
 
-        if (connection == null) {
-            JMXConnectionFactory factory = new JMXConnectionFactory();
-            connection = factory.getConnection();
-        }
+	/**
+	 * Creates a new JMXServer instance based on the default connection.
+	 *
+	 * @throws JMXConnectionException
+	 * 		when the connection cannot be established
+	 */
+	public JMXServer() throws JMXConnectionException {
 
-        this.connection = connection;
+		this(null);
+	}
 
-        this.initMBeanDomains();
-    }
+	/**
+	 * Creates a new JMXServer instance based on the given connection.
+	 *
+	 * @param connection
+	 * 		the connection
+	 *
+	 * @throws JMXConnectionException
+	 * 		when the connection cannot be established
+	 */
+	public JMXServer(JMXConnection connection) throws JMXConnectionException {
 
-    /**
-     * Load and initialize the MBean Domains.
-     */
-    private void initMBeanDomains() throws JMXConnectionException {
+		if (connection == null) {
+			JMXConnectionFactory factory = new JMXConnectionFactory();
+			connection = factory.getConnection();
+		}
 
-        List<MBeanServer> mBeanServers = this.connection.getMBeanServers();
+		this.connection = connection;
 
-        for (MBeanServer mBeanServer : mBeanServers) {
+		this.initMBeanDomains();
+	}
 
-            for (String domainName : mBeanServer.getDomains()) {
-                MBeanDomain domain = new MBeanDomain(domainName);
-                this.domains.put(domainName, domain);
+	/** Load and initialize the MBean Domains. */
+	private void initMBeanDomains() throws JMXConnectionException {
 
-            }
+		List<MBeanServer> mBeanServers = this.connection.getMBeanServers();
 
-            Set<ObjectInstance> objectInstances = mBeanServer.queryMBeans(null,
-                    null);
+		for (MBeanServer mBeanServer : mBeanServers) {
 
-            for (ObjectInstance objectInstance : objectInstances) {
+			for (String domainName : mBeanServer.getDomains()) {
+				MBeanDomain domain = new MBeanDomain(domainName);
+				this.domains.put(domainName, domain);
 
-                ObjectName objectName = objectInstance.getObjectName();
+			}
 
-                try {
-                    MBeanInfo mBeanInfo = mBeanServer.getMBeanInfo(objectName);
-                    MBean mbean = new MBean(objectInstance, mBeanInfo, mBeanServer);
+			Set<ObjectInstance> objectInstances = mBeanServer.queryMBeans(null, null);
 
-                    MBeanDomain domain = domains.get(mbean.getDomainName());
-                    domain.putMBean(mbean);
-                } catch (Exception e) {
-                    throw new JMXConnectionException("Cannot find MBean Info of MBean " + objectName + ".", e);
-                }
-            }
-        }
-    }
+			for (ObjectInstance objectInstance : objectInstances) {
 
-    public Map<String, MBeanDomain> getDomains() {
-        return Collections.unmodifiableMap(domains);
-    }
+				ObjectName objectName = objectInstance.getObjectName();
+
+				try {
+					MBeanInfo mBeanInfo = mBeanServer.getMBeanInfo(objectName);
+					MBean mbean = new MBean(objectInstance, mBeanInfo, mBeanServer);
+
+					MBeanDomain domain = domains.get(mbean.getDomainName());
+					domain.putMBean(mbean);
+				} catch (Exception e) {
+					throw new JMXConnectionException("Cannot find MBean Info of MBean " + objectName + ".", e);
+				}
+			}
+		}
+	}
+
+	public Map<String, MBeanDomain> getDomains() {
+
+		return Collections.unmodifiableMap(domains);
+	}
 }

@@ -35,12 +35,14 @@ import java.util.List;
  */
 public interface JMXConnection {
 
-    /**
-     * Retrieve the MBean Servers.
-     *
-     * @return the list of MBean servers
-     * @throws JMXConnectionException when the connection to the mbean servers cannot be established
-     */
-    List<MBeanServer> getMBeanServers() throws JMXConnectionException;
+	/**
+	 * Retrieve the MBean Servers.
+	 *
+	 * @return the list of MBean servers
+	 *
+	 * @throws JMXConnectionException
+	 * 		when the connection to the mbean servers cannot be established
+	 */
+	List<MBeanServer> getMBeanServers() throws JMXConnectionException;
 
 }

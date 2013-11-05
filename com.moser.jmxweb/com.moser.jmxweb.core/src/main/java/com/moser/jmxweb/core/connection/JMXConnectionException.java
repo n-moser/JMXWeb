@@ -34,15 +34,38 @@ import com.moser.jmxweb.core.exception.JMXWebException;
  */
 public class JMXConnectionException extends JMXWebException {
 
-    public JMXConnectionException(String message) {
-        super(message);
-    }
+	/**
+	 * Creates the JMXConnectionException for an error message.
+	 *
+	 * @param message
+	 * 		the error message
+	 */
+	public JMXConnectionException(String message) {
 
-    public JMXConnectionException(Exception cause) {
-        super(cause);
-    }
+		super(message);
+	}
 
-    public JMXConnectionException(String message, Exception cause) {
-        super(message, cause);
-    }
+	/**
+	 * Creates the JMXConnectionException for an error cause.
+	 *
+	 * @param cause
+	 * 		the causing error
+	 */
+	public JMXConnectionException(Exception cause) {
+
+		super(cause);
+	}
+
+	/**
+	 * Creates the JMXConnectionException for an error message and cause.
+	 *
+	 * @param message
+	 * 		the error message
+	 * @param cause
+	 * 		the causing error
+	 */
+	public JMXConnectionException(String message, Exception cause) {
+
+		super(message, cause);
+	}
 }

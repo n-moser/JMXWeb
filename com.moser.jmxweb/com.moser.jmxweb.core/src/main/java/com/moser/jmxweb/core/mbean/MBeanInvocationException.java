@@ -34,15 +34,38 @@ import com.moser.jmxweb.core.exception.JMXWebException;
  */
 public class MBeanInvocationException extends JMXWebException {
 
-    public MBeanInvocationException(String message) {
-        super(message);
-    }
+	/**
+	 * Creates the MBeanInvocationException for an error message.
+	 *
+	 * @param message
+	 * 		the error message
+	 */
+	public MBeanInvocationException(String message) {
 
-    public MBeanInvocationException(Exception cause) {
-        super(cause);
-    }
+		super(message);
+	}
 
-    public MBeanInvocationException(String message, Exception cause) {
-        super(message, cause);
-    }
+	/**
+	 * Creates the MBeanInvocationException for an error cause.
+	 *
+	 * @param cause
+	 * 		the causing error
+	 */
+	public MBeanInvocationException(Exception cause) {
+
+		super(cause);
+	}
+
+	/**
+	 * Creates the MBeanInvocationException for an error message and cause.
+	 *
+	 * @param message
+	 * 		the error message
+	 * @param cause
+	 * 		the causing error
+	 */
+	public MBeanInvocationException(String message, Exception cause) {
+
+		super(message, cause);
+	}
 }

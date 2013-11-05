@@ -32,17 +32,40 @@ package com.moser.jmxweb.core.exception;
  */
 public class JMXWebException extends Exception {
 
-    public JMXWebException(String message) {
-        super(message);
-    }
+	/**
+	 * Creates the JMXWebException for an error message.
+	 *
+	 * @param message
+	 * 		the error message
+	 */
+	public JMXWebException(String message) {
 
-    public JMXWebException(Exception cause) {
-        super(cause);
-    }
+		super(message);
+	}
 
-    public JMXWebException(String message, Exception cause) {
-        super(message, cause);
-    }
+	/**
+	 * Creates the JMXWebException for an error cause.
+	 *
+	 * @param cause
+	 * 		the causing error
+	 */
+	public JMXWebException(Exception cause) {
+
+		super(cause);
+	}
+
+	/**
+	 * Creates the JMXWebException for an error message and cause.
+	 *
+	 * @param message
+	 * 		the error message
+	 * @param cause
+	 * 		the causing error
+	 */
+	public JMXWebException(String message, Exception cause) {
+
+		super(message, cause);
+	}
 
 
 }

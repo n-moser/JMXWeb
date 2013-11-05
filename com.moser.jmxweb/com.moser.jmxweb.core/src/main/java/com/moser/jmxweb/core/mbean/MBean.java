@@ -24,6 +24,7 @@
 package com.moser.jmxweb.core.mbean;
 
 import javax.management.*;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -33,122 +34,143 @@ import java.util.*;
  * Date: 09.08.13
  * Time: 11:14
  */
-public class MBean {
+public class MBean implements Serializable {
 
-    private static final String PROPERTY_TYPE = "type";
-    private static final String PROPERTY_NAME = "name";
-    private final ObjectInstance objectInstance;
-    private final ObjectName objectName;
-    private final MBeanInfo mbeanInfo;
-    private Map<String, String> properties;
-    private List<MBeanAttribute> attributes;
-    private List<MBeanOperation> operations;
-    private MBeanServer mbeanServer;
+	private static final String PROPERTY_TYPE = "type";
 
-    /**
-     * Creates a new MBean instance.
-     *
-     * @param objectInstance the object instance
-     * @param mBeanInfo      the mbean information
-     */
-    MBean(ObjectInstance objectInstance, MBeanInfo mBeanInfo, MBeanServer mBeanServer) {
-        this.objectInstance = objectInstance;
-        this.objectName = objectInstance.getObjectName();
-        this.mbeanInfo = mBeanInfo;
-        this.mbeanServer = mBeanServer;
+	private static final String PROPERTY_NAME = "name";
 
-        this.attributes = new ArrayList<MBeanAttribute>();
-        for (MBeanAttributeInfo attributeInfo : this.mbeanInfo.getAttributes()) {
-            this.attributes.add(new MBeanAttribute(this, attributeInfo));
-        }
+	private final ObjectInstance objectInstance;
 
-        this.operations = new ArrayList<MBeanOperation>();
-        for (MBeanOperationInfo operationInfo : this.mbeanInfo.getOperations()) {
-            this.operations.add(new MBeanOperation(this, operationInfo));
-        }
+	private final ObjectName objectName;
 
-        this.properties = new HashMap<String, String>();
-        this.properties.putAll(objectName.getKeyPropertyList());
-    }
+	private final MBeanInfo mbeanInfo;
 
-    /**
-     * Getter for the MBean name.
-     *
-     * @return the name of the mbean
-     */
-    public String getName() {
-        return this.objectName.getCanonicalName();
-    }
+	private Map<String, String> properties;
 
-    /**
-     * Getter for the MBean description.
-     *
-     * @return the description of the mbean
-     */
-    public String getDescription() {
-        return this.mbeanInfo.getDescription();
-    }
+	private List<MBeanAttribute> attributes;
 
-    /**
-     * Getter for the Domain name.
-     *
-     * @return the name of the mbeans domain
-     */
-    public String getDomainName() {
-        return this.objectName.getDomain();
-    }
+	private List<MBeanOperation> operations;
 
-    /**
-     * Getter for the MBean type.
-     *
-     * @return the MBean type
-     */
-    public String getType() {
-        return this.properties.get(PROPERTY_TYPE);
-    }
+	private MBeanServer mbeanServer;
 
-    /**
-     * Getter for the MBean object name.
-     *
-     * @return the object name
-     */
-    public ObjectName getObjectName() {
-        return this.objectName;
-    }
+	/**
+	 * Creates a new MBean instance.
+	 *
+	 * @param objectInstance
+	 * 		the object instance
+	 * @param mBeanInfo
+	 * 		the mbean information
+	 */
+	MBean(ObjectInstance objectInstance, MBeanInfo mBeanInfo, MBeanServer mBeanServer) {
 
-    /**
-     * Getter for the MBean Attributes.
-     *
-     * @return the list of attributes
-     */
-    public List<MBeanAttribute> getAttributes() {
-        return Collections.unmodifiableList(attributes);
-    }
+		this.objectInstance = objectInstance;
+		this.objectName = objectInstance.getObjectName();
+		this.mbeanInfo = mBeanInfo;
+		this.mbeanServer = mBeanServer;
 
-    /**
-     * Getter for the MBean Operations.
-     *
-     * @return the list of operations
-     */
-    public List<MBeanOperation> getOperations() {
-        return Collections.unmodifiableList(operations);
-    }
+		this.attributes = new ArrayList<MBeanAttribute>();
+		for (MBeanAttributeInfo attributeInfo : this.mbeanInfo.getAttributes()) {
+			this.attributes.add(new MBeanAttribute(this, attributeInfo));
+		}
 
-    /**
-     * Getter for the MBean Properties.
-     *
-     * @return the list of properties
-     */
-    public Map<String, String> getProperties() {
-        return Collections.unmodifiableMap(properties);
-    }
+		this.operations = new ArrayList<MBeanOperation>();
+		for (MBeanOperationInfo operationInfo : this.mbeanInfo.getOperations()) {
+			this.operations.add(new MBeanOperation(this, operationInfo));
+		}
 
-    @Override
-    public String toString() {
-        return this.getName();
-    }
+		this.properties = new HashMap<String, String>();
+		this.properties.putAll(objectName.getKeyPropertyList());
+	}
 
-    public MBeanServer getMbeanServer() {
-        return mbeanServer;
-    }
+	/**
+	 * Getter for the MBean name.
+	 *
+	 * @return the name of the mbean
+	 */
+	public String getName() {
+
+		return this.objectName.getCanonicalName();
+	}
+
+	/**
+	 * Getter for the MBean description.
+	 *
+	 * @return the description of the mbean
+	 */
+	public String getDescription() {
+
+		return this.mbeanInfo.getDescription();
+	}
+
+	/**
+	 * Getter for the Domain name.
+	 *
+	 * @return the name of the mbeans domain
+	 */
+	public String getDomainName() {
+
+		return this.objectName.getDomain();
+	}
+
+	/**
+	 * Getter for the MBean type.
+	 *
+	 * @return the MBean type
+	 */
+	public String getType() {
+
+		return this.properties.get(PROPERTY_TYPE);
+	}
+
+	/**
+	 * Getter for the MBean object name.
+	 *
+	 * @return the object name
+	 */
+	public ObjectName getObjectName() {
+
+		return this.objectName;
+	}
+
+	/**
+	 * Getter for the MBean Attributes.
+	 *
+	 * @return the list of attributes
+	 */
+	public List<MBeanAttribute> getAttributes() {
+
+		return Collections.unmodifiableList(attributes);
+	}
+
+	/**
+	 * Getter for the MBean Operations.
+	 *
+	 * @return the list of operations
+	 */
+	public List<MBeanOperation> getOperations() {
+
+		return Collections.unmodifiableList(operations);
+	}
+
+	/**
+	 * Getter for the MBean Properties.
+	 *
+	 * @return the list of properties
+	 */
+	public Map<String, String> getProperties() {
+
+		return Collections.unmodifiableMap(properties);
+	}
+
+	@Override
+	public String toString() {
+
+		return this.getName();
+	}
+
+	public MBeanServer getMbeanServer() {
+
+		return mbeanServer;
+	}
 }

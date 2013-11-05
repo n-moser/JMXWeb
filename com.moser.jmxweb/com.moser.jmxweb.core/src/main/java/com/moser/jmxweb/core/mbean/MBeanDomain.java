@@ -23,6 +23,7 @@
 
 package com.moser.jmxweb.core.mbean;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -32,87 +33,98 @@ import java.util.*;
  * Date: 09.08.13
  * Time: 11:28
  */
-public class MBeanDomain {
+public class MBeanDomain implements Serializable {
 
-    private String name;
-    private int mbeanCount;
-    private Map<String, List<MBean>> mbeanMap;
+	private String name;
 
-    /**
-     * Creates a new domain for the given name.
-     *
-     * @param name the domain name
-     */
-    MBeanDomain(String name) {
-        this.name = name;
-        this.mbeanMap = new HashMap<String, List<MBean>>();
-    }
+	private int mbeanCount;
 
-    /**
-     * Getter for the domain Name.
-     *
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
+	private Map<String, List<MBean>> mbeanMap;
 
-    /**
-     * Returns an unmodifyable list of all contained MBean instances.
-     *
-     * @return the list of MBeans for the given type
-     */
-    public List<MBean> getAllMbeans() {
+	/**
+	 * Creates a new domain for the given name.
+	 *
+	 * @param name
+	 * 		the domain name
+	 */
+	MBeanDomain(String name) {
 
-        List<MBean> mbeans = new ArrayList<MBean>();
+		this.name = name;
+		this.mbeanMap = new HashMap<String, List<MBean>>();
+	}
 
-        for (Map.Entry<String, List<MBean>> entry : mbeanMap.entrySet()) {
-            List<MBean> entryMbeans = entry.getValue();
-            if (entryMbeans != null) {
-                mbeans.addAll(entryMbeans);
-            }
-        }
+	/**
+	 * Getter for the domain Name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
 
-        return Collections.unmodifiableList(mbeans);
-    }
+		return name;
+	}
 
-    /**
-     * Returns an unmodifyable list of all contained MBean instances of the given type.
-     *
-     * @param type the MBean type
-     * @return the list of MBeans for the given type
-     */
-    public List<MBean> getMbeans(String type) {
-        List<MBean> mBeans = mbeanMap.get(type);
+	/**
+	 * Returns an unmodifyable list of all contained MBean instances.
+	 *
+	 * @return the list of MBeans for the given type
+	 */
+	public List<MBean> getAllMbeans() {
 
-        if (mBeans == null) {
-            mBeans = new ArrayList<MBean>();
-            this.mbeanMap.put(type, mBeans);
-        }
+		List<MBean> mbeans = new ArrayList<MBean>();
 
-        return Collections.unmodifiableList(mBeans);
-    }
+		for (Map.Entry<String, List<MBean>> entry : mbeanMap.entrySet()) {
+			List<MBean> entryMbeans = entry.getValue();
+			if (entryMbeans != null) {
+				mbeans.addAll(entryMbeans);
+			}
+		}
 
-    /**
-     * Stores the given MBean in the domain.
-     *
-     * @param mbean the mbean to add
-     */
-    void putMBean(MBean mbean) {
-        List<MBean> mBeans = mbeanMap.get(mbean.getType());
+		return Collections.unmodifiableList(mbeans);
+	}
 
-        if (mBeans == null) {
-            mBeans = new ArrayList<MBean>();
-            this.mbeanMap.put(mbean.getType(), mBeans);
-        }
+	/**
+	 * Returns an unmodifyable list of all contained MBean instances of the given type.
+	 *
+	 * @param type
+	 * 		the MBean type
+	 *
+	 * @return the list of MBeans for the given type
+	 */
+	public List<MBean> getMbeans(String type) {
 
-        mBeans.add(mbean);
+		List<MBean> mBeans = mbeanMap.get(type);
 
-        this.mbeanCount++;
-    }
+		if (mBeans == null) {
+			mBeans = new ArrayList<MBean>();
+			this.mbeanMap.put(type, mBeans);
+		}
 
-    @Override
-    public String toString() {
-        return this.getName() + " (" + mbeanCount + ")";
-    }
+		return Collections.unmodifiableList(mBeans);
+	}
+
+	/**
+	 * Stores the given MBean in the domain.
+	 *
+	 * @param mbean
+	 * 		the mbean to add
+	 */
+	void putMBean(MBean mbean) {
+
+		List<MBean> mBeans = mbeanMap.get(mbean.getType());
+
+		if (mBeans == null) {
+			mBeans = new ArrayList<MBean>();
+			this.mbeanMap.put(mbean.getType(), mBeans);
+		}
+
+		mBeans.add(mbean);
+
+		this.mbeanCount++;
+	}
+
+	@Override
+	public String toString() {
+
+		return this.getName() + " (" + mbeanCount + ")";
+	}
 }

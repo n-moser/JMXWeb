@@ -32,20 +32,22 @@ package com.moser.jmxweb.core.connection;
  */
 public class JMXConnectionFactory {
 
-    /**
-     * Constructs a new Connection Factory.
-     */
-    public JMXConnectionFactory() {
-    }
+	/** Constructs a new Connection Factory. */
+	public JMXConnectionFactory() {
 
-    /**
-     * Creates a new JMXConnection instance.
-     *
-     * @return the new created instance
-     * @throws JMXConnectionException when the connection cannot be established
-     */
-    public JMXConnection getConnection() throws JMXConnectionException {
-        return new LocalJMXConnection();
-    }
+	}
+
+	/**
+	 * Creates a new JMXConnection instance.
+	 *
+	 * @return the new created instance
+	 *
+	 * @throws JMXConnectionException
+	 * 		when the connection cannot be established
+	 */
+	public JMXConnection getConnection() throws JMXConnectionException {
+
+		return new LocalJMXConnection();
+	}
 
 }

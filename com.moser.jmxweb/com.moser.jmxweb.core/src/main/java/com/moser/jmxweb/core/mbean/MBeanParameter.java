@@ -24,6 +24,7 @@
 package com.moser.jmxweb.core.mbean;
 
 import javax.management.MBeanParameterInfo;
+import java.io.Serializable;
 
 /**
  * MBeanParameter
@@ -32,28 +33,54 @@ import javax.management.MBeanParameterInfo;
  * Date: 09.08.13
  * Time: 11:18
  */
-public class MBeanParameter {
+public class MBeanParameter implements Serializable {
 
-    private final MBeanParameterInfo info;
+	private final MBeanParameterInfo info;
 
-    MBeanParameter(MBeanParameterInfo parameterInfo) {
-        this.info = parameterInfo;
-    }
+	/**
+	 * Creates a new MBeanParameter instance.
+	 *
+	 * @param parameterInfo
+	 * 		the parameter information
+	 */
+	MBeanParameter(MBeanParameterInfo parameterInfo) {
 
-    public String getName() {
-        return this.info.getName();
-    }
+		this.info = parameterInfo;
+	}
 
-    public String getType() {
-        return this.info.getType();
-    }
+	/**
+	 * Getter for teh parameter name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
 
-    public String getDescription() {
-        return this.info.getDescription();
-    }
+		return this.info.getName();
+	}
 
-    @Override
-    public String toString() {
-        return this.getType() + " " + this.getName();
-    }
+	/**
+	 * Getter for the parameter type.
+	 *
+	 * @return the type
+	 */
+	public String getType() {
+
+		return this.info.getType();
+	}
+
+	/**
+	 * Getter for the parameter description.
+	 *
+	 * @return the description
+	 */
+	public String getDescription() {
+
+		return this.info.getDescription();
+	}
+
+	@Override
+	public String toString() {
+
+		return this.getType() + " " + this.getName();
+	}
 }

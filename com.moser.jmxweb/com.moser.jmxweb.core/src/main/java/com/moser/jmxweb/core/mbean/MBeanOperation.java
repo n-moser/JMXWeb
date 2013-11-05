@@ -27,6 +27,7 @@ import javax.management.MBeanOperationInfo;
 import javax.management.MBeanParameterInfo;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,120 +39,134 @@ import java.util.List;
  * Date: 09.08.13
  * Time: 11:15
  */
-public class MBeanOperation {
+public class MBeanOperation implements Serializable {
 
-    private final MBeanOperationInfo info;
-    private final MBean mBean;
-    private List<MBeanParameter> parameters;
+	private final MBeanOperationInfo info;
 
-    /**
-     * Creates a new MBean operation instance.
-     *
-     * @param mBean         the MBean instance
-     * @param operationInfo the operation information
-     */
-    MBeanOperation(MBean mBean, MBeanOperationInfo operationInfo) {
+	private final MBean mBean;
 
-        this.mBean = mBean;
-        this.info = operationInfo;
+	private List<MBeanParameter> parameters;
 
-        this.parameters = new ArrayList<MBeanParameter>();
-        for (MBeanParameterInfo parameterInfo : this.info.getSignature()) {
-            this.parameters.add(new MBeanParameter(parameterInfo));
-        }
-    }
+	/**
+	 * Creates a new MBean operation instance.
+	 *
+	 * @param mBean
+	 * 		the MBean instance
+	 * @param operationInfo
+	 * 		the operation information
+	 */
+	MBeanOperation(MBean mBean, MBeanOperationInfo operationInfo) {
 
-    /**
-     * Getter for the operation name.
-     *
-     * @return the name
-     */
-    public String getName() {
-        return this.info.getName();
-    }
+		this.mBean = mBean;
+		this.info = operationInfo;
 
-    /**
-     * Getter for the operation description.
-     *
-     * @return the description
-     */
-    public String getDescription() {
-        return this.info.getDescription();
-    }
+		this.parameters = new ArrayList<MBeanParameter>();
+		for (MBeanParameterInfo parameterInfo : this.info.getSignature()) {
+			this.parameters.add(new MBeanParameter(parameterInfo));
+		}
+	}
 
-    /**
-     * Getter for the operation type.
-     *
-     * @return the return type
-     */
-    public String getReturnType() {
-        return this.info.getReturnType();
-    }
+	/**
+	 * Getter for the operation name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
 
-    /**
-     * Getter for the operation parameters.
-     *
-     * @return the unmodifiable list of parameters
-     */
-    public List<MBeanParameter> getParameters() {
-        return Collections.unmodifiableList(this.parameters);
-    }
+		return this.info.getName();
+	}
 
-    /**
-     * Invoke the MBean Operation with the given arguments.
-     *
-     * @param arguments the invocation arguments
-     * @return the operation result
-     * @throws MBeanInvocationException when the operation cannot be invoked or raised an exception
-     */
-    public Object invoke(Object... arguments) throws MBeanInvocationException {
-        MBeanServer mbeanServer = this.mBean.getMbeanServer();
-        ObjectName objectName = mBean.getObjectName();
+	/**
+	 * Getter for the operation description.
+	 *
+	 * @return the description
+	 */
+	public String getDescription() {
 
-        try {
-            String[] parameters = new String[this.parameters.size()];
-            for (int i = 0; i < parameters.length; i++) {
-                MBeanParameter parameter = this.parameters.get(i);
+		return this.info.getDescription();
+	}
 
-                if (parameter != null) {
-                    parameters[i] = parameter.getName();
-                }
-            }
+	/**
+	 * Getter for the operation type.
+	 *
+	 * @return the return type
+	 */
+	public String getReturnType() {
 
-            return mbeanServer.invoke(objectName, this.getName(), arguments, parameters);
-        } catch (Exception e) {
-            throw new MBeanInvocationException("Error retrieving Attribute value of " + this.getName() + ".", e);
-        }
-    }
+		return this.info.getReturnType();
+	}
 
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
+	/**
+	 * Getter for the operation parameters.
+	 *
+	 * @return the unmodifiable list of parameters
+	 */
+	public List<MBeanParameter> getParameters() {
 
-        if (this.getReturnType() == null) {
-            result.append("void");
-        } else {
-            result.append(this.getReturnType());
-        }
+		return Collections.unmodifiableList(this.parameters);
+	}
 
-        result.append(' ');
-        result.append(this.getName());
-        result.append(' ');
-        result.append('(');
+	/**
+	 * Invoke the MBean Operation with the given arguments.
+	 *
+	 * @param arguments
+	 * 		the invocation arguments
+	 *
+	 * @return the operation result
+	 *
+	 * @throws MBeanInvocationException
+	 * 		when the operation cannot be invoked or raised an exception
+	 */
+	public Object invoke(Object... arguments) throws MBeanInvocationException {
 
-        List<MBeanParameter> parameters = this.getParameters();
-        for (int i = 0; i < parameters.size(); i++) {
-            MBeanParameter parameter = parameters.get(i);
-            result.append(parameter);
+		MBeanServer mbeanServer = this.mBean.getMbeanServer();
+		ObjectName objectName = mBean.getObjectName();
 
-            if (i < parameters.size() - 1) {
-                result.append(',');
-                result.append(' ');
-            }
-        }
+		try {
+			String[] parameters = new String[this.parameters.size()];
+			for (int i = 0; i < parameters.length; i++) {
+				MBeanParameter parameter = this.parameters.get(i);
 
-        result.append(')');
+				if (parameter != null) {
+					parameters[i] = parameter.getName();
+				}
+			}
 
-        return result.toString();
-    }
+			return mbeanServer.invoke(objectName, this.getName(), arguments, parameters);
+		} catch (Exception e) {
+			throw new MBeanInvocationException("Error retrieving Attribute value of " + this.getName() + ".", e);
+		}
+	}
+
+	@Override
+	public String toString() {
+
+		StringBuilder result = new StringBuilder();
+
+		if (this.getReturnType() == null) {
+			result.append("void");
+		} else {
+			result.append(this.getReturnType());
+		}
+
+		result.append(' ');
+		result.append(this.getName());
+		result.append(' ');
+		result.append('(');
+
+		List<MBeanParameter> parameters = this.getParameters();
+		for (int i = 0; i < parameters.size(); i++) {
+			MBeanParameter parameter = parameters.get(i);
+			result.append(parameter);
+
+			if (i < parameters.size() - 1) {
+				result.append(',');
+				result.append(' ');
+			}
+		}
+
+		result.append(')');
+
+		return result.toString();
+	}
 }

@@ -39,23 +39,23 @@ import java.util.List;
 class LocalJMXConnection extends JMXConnectionSupport implements JMXConnection {
 
 
-    @Override
-    public List<MBeanServer> getMBeanServers() throws JMXConnectionException {
+	@Override
+	public List<MBeanServer> getMBeanServers() throws JMXConnectionException {
 
-        List<MBeanServer> servers = new ArrayList<MBeanServer>();
+		List<MBeanServer> servers = new ArrayList<MBeanServer>();
 
-        try {
-            List<MBeanServer> registeredServers = MBeanServerFactory.findMBeanServer(null);
+		try {
+			List<MBeanServer> registeredServers = MBeanServerFactory.findMBeanServer(null);
 
-            if (registeredServers == null || registeredServers.isEmpty()) {
-                servers.add(ManagementFactory.getPlatformMBeanServer());
-            } else {
-                servers.addAll(registeredServers);
-            }
-        } catch (Exception e) {
-            throw new JMXConnectionException("Error initializing local MBean Servers.", e);
-        }
+			if (registeredServers == null || registeredServers.isEmpty()) {
+				servers.add(ManagementFactory.getPlatformMBeanServer());
+			} else {
+				servers.addAll(registeredServers);
+			}
+		} catch (Exception e) {
+			throw new JMXConnectionException("Error initializing local MBean Servers.", e);
+		}
 
-        return servers;
-    }
+		return servers;
+	}
 }

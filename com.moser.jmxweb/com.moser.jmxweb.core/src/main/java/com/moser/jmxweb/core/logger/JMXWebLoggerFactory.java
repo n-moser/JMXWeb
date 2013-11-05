@@ -32,9 +32,18 @@ package com.moser.jmxweb.core.logger;
  */
 public class JMXWebLoggerFactory {
 
-    public static JMXWebLogger getLogger(Class<?> loggingClass) {
-        return new Slf4jLogger(loggingClass);
-    }
+	/**
+	 * Creates a new logger instance for the given class.
+	 *
+	 * @param loggingClass
+	 * 		the logging class
+	 *
+	 * @return the logger instance
+	 */
+	public static JMXWebLogger getLogger(Class<?> loggingClass) {
+
+		return new Slf4jLogger(loggingClass);
+	}
 
 
 }
