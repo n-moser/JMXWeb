@@ -21,22 +21,37 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-apply plugin: 'war'
-apply plugin: 'jetty'
+package com.moser.jmxweb.web.model;
 
-dependencies {
-	compile project(':com.moser.jmxweb.core')
-    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: '2.4'
-    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-moxy', version: '2.4'
-}
+/**
+ * MBeanDomainModel
+ * <p/>
+ * Author: Nicolas Moser
+ * Date: 05.11.13
+ * Time: 22:13
+ */
+public class MBeanDomainModel {
 
-war {
-    archiveName = 'jmxweb.war'
-}
+	private String name;
 
-jar.enabled = false
+	/**
+	 * Getter for the MBean Domain name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
 
-task jettyRefresh(type:Copy, dependsOn: war) {
-    from zipTree(war.archivePath)
-    into file("${buildDir}/tmp/jettyRunWar")
+		return name;
+	}
+
+	/**
+	 * Setter for the MBean Domain name.
+	 *
+	 * @param name
+	 * 		the name to set
+	 */
+	public void setName(String name) {
+
+		this.name = name;
+	}
 }

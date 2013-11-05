@@ -25,4 +25,61 @@ $(function () {
 
     $("#tabs").tabs();
 
+    $("#domainListLoader").hide()
+    $("#mBeanListLoader").hide()
+
 });
+
+var rootURL = "http://localhost:8080/com.moser.jmxweb.web/resources/";
+
+function loadDomains() {
+
+    $('#domainList li').remove();
+
+    $('#domainListLoader').show();
+
+    $.ajax({
+        type: 'GET',
+        url: rootURL + 'domains/',
+        dataType: 'json',
+        success: renderDomainList
+    });
+
+}
+
+function loadMBeans(domainName) {
+
+    $('#mBeanList li').remove();
+
+    $('#mBeanListLoader').show();
+
+    $.ajax({
+        type: 'GET',
+        url: rootURL + 'domains/' + domainName + '/mbeans',
+        dataType: 'json',
+        success: renderMBeanList
+    });
+
+}
+
+function renderDomainList(data) {
+
+    var list = data == null ? [] : (data instanceof Array ? data : [data]);
+
+    $('#domainListLoader').hide();
+
+    $.each(list, function(index, domain) {
+        $('#domainList').append('<li><div id="' + domain.name + '" class="listEntry" href="#" onclick="loadMBeans(\'' + domain.name + '\')">' + domain.name + '</div></li>');
+    });
+}
+
+function renderMBeanList(data) {
+
+    var list = data == null ? [] : (data instanceof Array ? data : [data]);
+
+    $('#mBeanListLoader').hide();
+
+    $.each(list, function(index, mBean) {
+        $('#mBeanList').append('<li><div  class="listEntry">' + mBean.name + '</div></li>');
+    });
+}

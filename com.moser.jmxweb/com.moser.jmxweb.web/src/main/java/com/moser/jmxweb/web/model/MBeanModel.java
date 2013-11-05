@@ -21,22 +21,83 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-apply plugin: 'war'
-apply plugin: 'jetty'
+package com.moser.jmxweb.web.model;
 
-dependencies {
-	compile project(':com.moser.jmxweb.core')
-    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: '2.4'
-    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-moxy', version: '2.4'
-}
+/**
+ * MBeanModel
+ * <p/>
+ * Author: Nicolas Moser
+ * Date: 05.11.13
+ * Time: 22:13
+ */
+public class MBeanModel {
 
-war {
-    archiveName = 'jmxweb.war'
-}
+	private String name;
 
-jar.enabled = false
+	private String type;
 
-task jettyRefresh(type:Copy, dependsOn: war) {
-    from zipTree(war.archivePath)
-    into file("${buildDir}/tmp/jettyRunWar")
+	private String description;
+
+	/**
+	 * Getter for the MBean name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
+
+		return name;
+	}
+
+	/**
+	 * Setter for the MBean name.
+	 *
+	 * @param name
+	 * 		the name to set
+	 */
+	public void setName(String name) {
+
+		this.name = name;
+	}
+
+	/**
+	 * Getter for the MBean type.
+	 *
+	 * @return the type
+	 */
+	public String getType() {
+
+		return type;
+	}
+
+	/**
+	 * Setter for the MBean type.
+	 *
+	 * @param type
+	 * 		the type to set
+	 */
+	public void setType(String type) {
+
+		this.type = type;
+	}
+
+	/**
+	 * Getter for the MBean description.
+	 *
+	 * @return the description
+	 */
+	public String getDescription() {
+
+		return description;
+	}
+
+	/**
+	 * Setter for the MBean description.
+	 *
+	 * @param description
+	 * 		the name to description
+	 */
+	public void setDescription(String description) {
+
+		this.description = description;
+	}
 }

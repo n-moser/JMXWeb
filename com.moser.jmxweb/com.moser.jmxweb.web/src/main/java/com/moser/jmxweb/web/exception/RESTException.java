@@ -21,22 +21,53 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-apply plugin: 'war'
-apply plugin: 'jetty'
+package com.moser.jmxweb.web.exception;
 
-dependencies {
-	compile project(':com.moser.jmxweb.core')
-    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: '2.4'
-    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-moxy', version: '2.4'
-}
+import com.moser.jmxweb.core.exception.JMXWebException;
 
-war {
-    archiveName = 'jmxweb.war'
-}
+/**
+ * RESTException
+ * <p/>
+ * User: Nicolas Moser
+ * Date: 07.08.13
+ * Time: 00:23
+ */
+public class RESTException extends JMXWebException {
 
-jar.enabled = false
+	/**
+	 * Creates the RESTException for an error message.
+	 *
+	 * @param message
+	 * 		the error message
+	 */
+	public RESTException(String message) {
 
-task jettyRefresh(type:Copy, dependsOn: war) {
-    from zipTree(war.archivePath)
-    into file("${buildDir}/tmp/jettyRunWar")
+		super(message);
+	}
+
+	/**
+	 * Creates the RESTException for an error cause.
+	 *
+	 * @param cause
+	 * 		the causing error
+	 */
+	public RESTException(Exception cause) {
+
+		super(cause);
+	}
+
+	/**
+	 * Creates the RESTException for an error message and cause.
+	 *
+	 * @param message
+	 * 		the error message
+	 * @param cause
+	 * 		the causing error
+	 */
+	public RESTException(String message, Exception cause) {
+
+		super(message, cause);
+	}
+
+
 }

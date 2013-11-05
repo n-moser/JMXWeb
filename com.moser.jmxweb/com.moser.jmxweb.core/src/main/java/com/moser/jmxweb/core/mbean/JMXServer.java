@@ -112,6 +112,11 @@ public class JMXServer {
 		}
 	}
 
+	/**
+	 * Getter for the list of MBean Domains.
+	 *
+	 * @return the domains as Map
+	 */
 	public Map<String, MBeanDomain> getDomains() {
 
 		return Collections.unmodifiableMap(domains);

@@ -50,7 +50,7 @@
             <li><a href="#tabs-2">Memory</a></li>
             <li><a href="#tabs-3">Threads</a></li>
             <li><a href="#tabs-4">Classes</a></li>
-            <li><a href="#tabs-5">MBeans</a></li>
+            <li><a href="#tabs-5" onclick="loadDomains()">MBeans</a></li>
         </ul>
 
         <div id="tabs-1">
@@ -67,17 +67,20 @@
         </div>
 
         <div id="tabs-5">
-            <div>
-                <div class="domains">
-                    <div class="domainHeader">Domains</div>
-                    <div>
-                        <div>Domain Tree</div>
-                        <div>&nbsp;+-- Leaf A</div>
-                        <div>&nbsp;+-- Leaf B</div>
-                    </div>
-                </div>
+            <div class="domains">
+                <div class="label">Domains</div>
+                <div>
+                    <ul id="domainList"></ul>
 
-                <div>MBeans</div>
+                    <img id="domainListLoader" src="./img/loader.gif"/>
+                </div>
+            </div>
+
+            <div class="label">MBeans</div>
+            <div>
+                <ul id="mBeanList"></ul>
+
+                <img id="mBeanListLoader" src="./img/loader.gif"/>
             </div>
         </div>
     </div>
