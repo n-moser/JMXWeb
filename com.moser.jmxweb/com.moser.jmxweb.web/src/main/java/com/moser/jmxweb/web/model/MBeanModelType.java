@@ -21,45 +21,19 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-body {
-    font: 62.5% "Trebuchet MS", sans-serif;
-    margin: 50px;
-    background-color: whitesmoke;
-}
+package com.moser.jmxweb.web.model;
 
-.ui-tabs-panel {
-    min-height: 80%;
-}
+/**
+ * MBeanModelType
+ * <p/>
+ * Author: Nicolas Moser
+ * Date: 06.11.13
+ * Time: 13:01
+ */
+public enum MBeanModelType {
 
-.content {
-}
+	GROUP,
 
-.domains {
-    border-right: 2px solid gray;
-    float: left;
-    height: 100%;
-    padding: 5 40 0 20;
-    margin-right: 50px;
-    min-width: 150px;
-}
+	ENTRY
 
-.label {
-    font-weight: bolder;
-}
-
-#domainList {
-    margin-left: -20px;
-}
-
-.mbeanListEntry {
-
-}
-
-.listEntry:hover {
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-#footer {
-    margin-top: 20px;
 }

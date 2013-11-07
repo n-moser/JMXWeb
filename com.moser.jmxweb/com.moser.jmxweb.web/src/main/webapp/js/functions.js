@@ -28,6 +28,13 @@ $(function () {
     $("#domainListLoader").hide()
     $("#mBeanListLoader").hide()
 
+    $('#mbeanTree').tree({
+        openedIcon: '-',
+        closedIcon: '+',
+        saveState: true,
+        selectable: false
+    });
+
 });
 
 var rootURL = "http://localhost:8080/com.moser.jmxweb.web/resources/";
@@ -80,6 +87,6 @@ function renderMBeanList(data) {
     $('#mBeanListLoader').hide();
 
     $.each(list, function(index, mBean) {
-        $('#mBeanList').append('<li><div  class="listEntry">' + mBean.name + '</div></li>');
+        $('#mBeanList').append('<li><div  class="listEntry">' + mBean.type + '</div></li>');
     });
 }

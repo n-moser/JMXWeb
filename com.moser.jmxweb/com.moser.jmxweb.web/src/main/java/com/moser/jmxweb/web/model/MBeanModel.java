@@ -27,36 +27,24 @@ package com.moser.jmxweb.web.model;
  * MBeanModel
  * <p/>
  * Author: Nicolas Moser
- * Date: 05.11.13
- * Time: 22:13
+ * Date: 06.11.13
+ * Time: 11:58
  */
-public class MBeanModel {
-
-	private String name;
+public abstract class MBeanModel {
 
 	private String type;
 
-	private String description;
+	private MBeanModelType modelType;
 
 	/**
-	 * Getter for the MBean name.
+	 * Creates a new MBeanModel instance for the given model type.
 	 *
-	 * @return the name
+	 * @param modelType
+	 * 		the mbean model type
 	 */
-	public String getName() {
+	protected MBeanModel(MBeanModelType modelType) {
 
-		return name;
-	}
-
-	/**
-	 * Setter for the MBean name.
-	 *
-	 * @param name
-	 * 		the name to set
-	 */
-	public void setName(String name) {
-
-		this.name = name;
+		this.modelType = modelType;
 	}
 
 	/**
@@ -81,23 +69,14 @@ public class MBeanModel {
 	}
 
 	/**
-	 * Getter for the MBean description.
+	 * Getter for the MBean model type.
 	 *
-	 * @return the description
+	 * @return the model type
 	 */
-	public String getDescription() {
+	public MBeanModelType getModelType() {
 
-		return description;
+		return this.modelType;
 	}
 
-	/**
-	 * Setter for the MBean description.
-	 *
-	 * @param description
-	 * 		the name to description
-	 */
-	public void setDescription(String description) {
 
-		this.description = description;
-	}
 }

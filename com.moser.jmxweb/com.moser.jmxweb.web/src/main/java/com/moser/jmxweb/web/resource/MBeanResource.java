@@ -23,13 +23,11 @@
 
 package com.moser.jmxweb.web.resource;
 
-import com.moser.jmxweb.core.connection.JMXConnectionException;
-import com.moser.jmxweb.core.logger.JMXWebLogger;
-import com.moser.jmxweb.core.logger.JMXWebLoggerFactory;
-import com.moser.jmxweb.core.mbean.JMXServer;
 import com.moser.jmxweb.core.mbean.MBean;
 import com.moser.jmxweb.core.mbean.MBeanDomain;
 import com.moser.jmxweb.web.exception.RESTException;
+import com.moser.jmxweb.web.model.MBeanEntryModel;
+import com.moser.jmxweb.web.model.MBeanGroupModel;
 import com.moser.jmxweb.web.model.MBeanModel;
 
 import javax.ws.rs.GET;
@@ -47,10 +45,10 @@ import java.util.List;
  * Date: 05.11.13
  * Time: 20:13
  */
-@Path("domains/{domain}/mbeans")
+@Path("domains/{domainName}/mbeans")
 public class MBeanResource {
 
-	private JMXWebLogger logger = JMXWebLoggerFactory.getLogger(MBeanResource.class);
+	private MBeanResolver resolver = new MBeanResolver();
 
 	/**
 	 * Getter for all MBeans of the given domain.
@@ -65,32 +63,65 @@ public class MBeanResource {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<MBeanModel> getAllMBeans(@PathParam("domain") String domain) throws RESTException {
+	public List<MBeanModel> getAllMBeans(@PathParam("domainName") String domain) throws RESTException {
 
-		try {
-			JMXServer server = new JMXServer();
-			MBeanDomain mBeanDomain = server.getDomains().get(domain);
+		MBeanDomain mBeanDomain = this.resolver.resolveDomain(domain);
 
-			if (mBeanDomain == null) {
-				throw new RESTException("MBean domain '" + domain + "' does not exist.");
+		List<MBeanModel> modelList = new ArrayList<MBeanModel>();
+
+		for (String type : mBeanDomain.getMBeanTypes()) {
+			List<MBean> mbeans = mBeanDomain.getMbeans(type);
+
+			if (!mbeans.isEmpty()) {
+				if (mbeans.size() > 1) {
+					MBeanGroupModel model = new MBeanGroupModel();
+					model.setType(type);
+					modelList.add(model);
+				} else {
+					MBean mBean = mbeans.get(0);
+					MBeanEntryModel model = new MBeanEntryModel();
+					model.setName(mBean.getName());
+					model.setType(mBean.getType());
+					model.setDescription(mBean.getDescription());
+					modelList.add(model);
+				}
 			}
-
-			List<MBeanModel> modelList = new ArrayList<MBeanModel>();
-			for(MBean mbean : mBeanDomain.getAllMbeans()) {
-
-				MBeanModel model = new MBeanModel();
-				model.setName(mbean.getName());
-				model.setType(mbean.getType());
-				model.setDescription(mbean.getDescription());
-				modelList.add(model);
-			}
-
-			return modelList;
-
-		} catch (JMXConnectionException e) {
-			logger.error("Cannot load MBeans for domain '{}'.", domain, e);
-			throw new RESTException("Cannot load MBeans.");
 		}
+
+		return modelList;
+	}
+
+	/**
+	 * Getter for all MBeans of the given domain.
+	 *
+	 * @param domainName
+	 * 		the MBean domain
+	 *
+	 * @return the list of mbeans
+	 *
+	 * @throws RESTException
+	 * 		when the mbeans cannot be loaded
+	 */
+	@GET
+	@Path("{mBeanType}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<MBeanEntryModel> getMBeans(@PathParam("domainName") String domainName,
+										   @PathParam("mBeanType") String mBeanType) throws RESTException {
+
+		MBeanDomain mBeanDomain = this.resolver.resolveDomain(domainName);
+		List<MBean> mbeans = mBeanDomain.getMbeans(mBeanType);
+
+		List<MBeanEntryModel> modelList = new ArrayList<MBeanEntryModel>();
+
+		for (MBean mBean : mbeans) {
+			MBeanEntryModel model = new MBeanEntryModel();
+			model.setName(mBean.getName());
+			model.setType(mBean.getType());
+			model.setDescription(mBean.getDescription());
+			modelList.add(model);
+		}
+
+		return modelList;
 	}
 
 }

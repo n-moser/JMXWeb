@@ -21,45 +21,66 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-body {
-    font: 62.5% "Trebuchet MS", sans-serif;
-    margin: 50px;
-    background-color: whitesmoke;
-}
+package com.moser.jmxweb.web.model;
 
-.ui-tabs-panel {
-    min-height: 80%;
-}
+/**
+ * MBeanEntryModel
+ * <p/>
+ * Author: Nicolas Moser
+ * Date: 05.11.13
+ * Time: 22:13
+ */
+public class MBeanEntryModel extends MBeanModel {
 
-.content {
-}
+	private String name;
 
-.domains {
-    border-right: 2px solid gray;
-    float: left;
-    height: 100%;
-    padding: 5 40 0 20;
-    margin-right: 50px;
-    min-width: 150px;
-}
+	private String description;
 
-.label {
-    font-weight: bolder;
-}
+	/** Creates a new MBeanEntryModel instance. */
+	public MBeanEntryModel() {
 
-#domainList {
-    margin-left: -20px;
-}
+		super(MBeanModelType.ENTRY);
+	}
 
-.mbeanListEntry {
+	/**
+	 * Getter for the MBean name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
 
-}
+		return name;
+	}
 
-.listEntry:hover {
-    text-decoration: underline;
-    cursor: pointer;
-}
+	/**
+	 * Setter for the MBean name.
+	 *
+	 * @param name
+	 * 		the name to set
+	 */
+	public void setName(String name) {
 
-#footer {
-    margin-top: 20px;
+		this.name = name;
+	}
+
+	/**
+	 * Getter for the MBean description.
+	 *
+	 * @return the description
+	 */
+	public String getDescription() {
+
+		return description;
+	}
+
+	/**
+	 * Setter for the MBean description.
+	 *
+	 * @param description
+	 * 		the name to description
+	 */
+	public void setDescription(String description) {
+
+		this.description = description;
+	}
 }

@@ -23,9 +23,9 @@
 
 package com.moser.jmxweb.web.resource;
 
-import com.moser.jmxweb.core.mbean.MBeanDomain;
+import com.moser.jmxweb.core.mbean.MBeanAttribute;
 import com.moser.jmxweb.web.exception.RESTException;
-import com.moser.jmxweb.web.model.MBeanDomainModel;
+import com.moser.jmxweb.web.model.MBeanAttributeModel;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -36,63 +36,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * MBeanDomainResource
+ * MBeanResource
  * <p/>
  * Author: Nicolas Moser
  * Date: 05.11.13
- * Time: 20:27
+ * Time: 20:13
  */
-@Path("domains")
-public class MBeanDomainResource {
+@Path("domains/{domainName}/mbeans/{mbeanName}/")
+public class MBeanAttributeResource {
 
 	private MBeanResolver resolver = new MBeanResolver();
 
 	/**
-	 * Getter for all MBean Domains.
+	 * Getter for all MBeans of the given domain.
 	 *
-	 * @return the list of all existing MBean Domains.
+	 * @param domainName
+	 * 		the MBean domain
+	 *
+	 * @return the list of mbeans
 	 *
 	 * @throws RESTException
-	 * 		when the MBean Domains cannot be loaded
+	 * 		when the mbeans cannot be loaded
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<MBeanDomainModel> getAllDomains() throws RESTException {
+	public List<MBeanAttributeModel> getMBeanAttributes(@PathParam("domainName") String domainName,
+														@PathParam("mBeanName") String mBeanName) throws RESTException {
 
-		List<MBeanDomain> domains = this.resolver.resolveDomains();
+		List<MBeanAttribute> attributes = this.resolver.resolveMBeanAttributes(domainName, mBeanName);
 
-		List<MBeanDomainModel> modelList = new ArrayList<MBeanDomainModel>();
-		for (MBeanDomain domain : domains) {
-			MBeanDomainModel model = new MBeanDomainModel();
-			model.setName(domain.getName());
+		List<MBeanAttributeModel> modelList = new ArrayList<MBeanAttributeModel>();
+
+		for (MBeanAttribute attribute : attributes) {
+
+			MBeanAttributeModel model = new MBeanAttributeModel();
+			model.setName(attribute.getName());
+			model.setType(attribute.getType());
+			model.setDescription(attribute.getDescription());
+			model.setReadable(attribute.isReadable());
+			model.setWritable(attribute.isWritable());
+			model.setValue(attribute.getValueAsString());
+
 			modelList.add(model);
 		}
 
 		return modelList;
-	}
-
-	/**
-	 * Getter for the MBean Domain with the given name.
-	 *
-	 * @param domainName
-	 * 		the domain name
-	 *
-	 * @return the MBean Domain
-	 *
-	 * @throws RESTException
-	 * 		when the MBean Domains cannot be loaded
-	 */
-	@GET
-	@Path("{domainName}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public MBeanDomainModel getDomain(@PathParam("domainName") String domainName) throws RESTException {
-
-		MBeanDomain domain = this.resolver.resolveDomain(domainName);
-
-		MBeanDomainModel model = new MBeanDomainModel();
-		model.setName(domain.getName());
-
-		return model;
 	}
 
 }

@@ -64,6 +64,16 @@ public class MBeanDomain implements Serializable {
 	}
 
 	/**
+	 * Returns an unmodifyable list of all contained MBean types.
+	 *
+	 * @return the list of MBean types
+	 */
+	public List<String> getMBeanTypes() {
+
+		return Collections.unmodifiableList(new ArrayList<String>(this.mbeanMap.keySet()));
+	}
+
+	/**
 	 * Returns an unmodifyable list of all contained MBean instances.
 	 *
 	 * @return the list of MBeans for the given type
