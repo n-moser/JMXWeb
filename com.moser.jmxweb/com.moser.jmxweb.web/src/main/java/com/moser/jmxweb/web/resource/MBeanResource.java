@@ -29,6 +29,7 @@ import com.moser.jmxweb.web.exception.RESTException;
 import com.moser.jmxweb.web.model.MBeanEntryModel;
 import com.moser.jmxweb.web.model.MBeanGroupModel;
 import com.moser.jmxweb.web.model.MBeanModel;
+import com.moser.jmxweb.web.resource.util.MBeanResolver;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -80,7 +81,7 @@ public class MBeanResource {
 				} else {
 					MBean mBean = mbeans.get(0);
 					MBeanEntryModel model = new MBeanEntryModel();
-					model.setName(mBean.getName());
+					model.setName(mBean.getCanonicalName());
 					model.setType(mBean.getType());
 					model.setDescription(mBean.getDescription());
 					modelList.add(model);
@@ -115,7 +116,7 @@ public class MBeanResource {
 
 		for (MBean mBean : mbeans) {
 			MBeanEntryModel model = new MBeanEntryModel();
-			model.setName(mBean.getName());
+			model.setName(mBean.getCanonicalName());
 			model.setType(mBean.getType());
 			model.setDescription(mBean.getDescription());
 			modelList.add(model);

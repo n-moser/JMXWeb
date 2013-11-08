@@ -90,6 +90,16 @@ public class MBean implements Serializable {
 	 */
 	public String getName() {
 
+		return this.objectName.getKeyProperty(PROPERTY_NAME);
+	}
+
+	/**
+	 * Getter for the canonical MBean name.
+	 *
+	 * @return the full qualified name of the mbean
+	 */
+	public String getCanonicalName() {
+
 		return this.objectName.getCanonicalName();
 	}
 
@@ -166,11 +176,26 @@ public class MBean implements Serializable {
 	@Override
 	public String toString() {
 
-		return this.getName();
+		return this.getCanonicalName();
 	}
 
+	/**
+	 * Getter for the mbean server.
+	 *
+	 * @return the mbean server
+	 */
 	public MBeanServer getMbeanServer() {
 
 		return mbeanServer;
+	}
+
+	/**
+	 * Getter for the class name.S
+	 *
+	 * @return the class name
+	 */
+	public String getMBeanClass() {
+
+		return this.mbeanInfo.getClassName();
 	}
 }

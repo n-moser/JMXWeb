@@ -45,6 +45,8 @@ public class MBeanAttribute implements Serializable {
 
 	private final MBean mBean;
 
+	private final Class<?> type;
+
 	private JMXWebLogger logger = JMXWebLoggerFactory.getLogger(MBeanAttribute.class);
 
 	/**
@@ -59,6 +61,14 @@ public class MBeanAttribute implements Serializable {
 
 		this.mBean = mBean;
 		this.info = attributeInfo;
+
+		Class<?> typeClass = null;
+		try {
+			typeClass = Class.forName(attributeInfo.getType());
+		} catch (Exception e) {
+			logger.warn("Cannot load Type for Attribute {} of MBean {}.", attributeInfo.getName(), mBean.getName());
+		}
+		this.type = typeClass;
 	}
 
 	/**
@@ -98,7 +108,11 @@ public class MBeanAttribute implements Serializable {
 	 */
 	public String getType() {
 
-		return this.info.getType();
+		if (this.type == null) {
+			return this.info.getType();
+		}
+
+		return this.type.getCanonicalName();
 	}
 
 	/**
@@ -160,7 +174,23 @@ public class MBeanAttribute implements Serializable {
 
 		try {
 			Object value = this.getValue();
+
+//			if (this.type != null) {
+//				if (this.type.isArray()) {
+//					Object[] array = (Object[]) value;
+//					StringBuilder result = new StringBuilder();
+//					result.append("[");
+//					for (Object entry : array) {
+//						result.append(String.valueOf(entry));
+//						result.append(", ");
+//					}
+//					result.append("]");
+//					return result.toString();
+//				}
+//			}
+
 			return String.valueOf(value);
+
 		} catch (MBeanInvocationException e) {
 			logger.error("Error retrieving value of MBean Attribute {}.", this.getName(), e);
 		}

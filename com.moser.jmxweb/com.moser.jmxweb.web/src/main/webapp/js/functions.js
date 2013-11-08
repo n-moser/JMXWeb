@@ -21,72 +21,109 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+var rootURL = "./resources/";
+
 $(function () {
 
     $("#tabs").tabs();
 
-    $("#domainListLoader").hide()
-    $("#mBeanListLoader").hide()
+    $("#mBeanDetailLoader").hide()
+    $("#mBeanDetails").hide()
 
     $('#mbeanTree').tree({
-        openedIcon: '-',
-        closedIcon: '+',
+
+        dataUrl: rootURL + 'mbeantree',
         saveState: true,
-        selectable: false
+        selectable: true,
+
+        onCanSelectNode: function(node) {
+            switch(node.type) {
+                case 'DOMAIN':
+                    return false;
+                case 'GROUP':
+                    return false;
+            }
+            return true;
+        },
+
+        onCreateLi: function(node, $li) {
+
+            switch(node.type) {
+                case 'DOMAIN':
+                    $li.find('.jqtree-title').before('<span class="treeIconDomain"></span>');
+                    break;
+                case 'GROUP':
+                    $li.find('.jqtree-title').before('<span class="treeIconGroup"></span>');
+                    break;
+                case 'MBEAN':
+                    $li.find('.jqtree-title').before('<span class="treeIconMBean"></span>');
+                    break;
+            }
+        }
+
     });
+
+    $('#mbeanTree').bind(
+
+        'tree.select',
+
+        function(event) {
+
+            $("#mBeanDetails").hide()
+
+            if (event.node) {
+                // node was selected
+                var node = event.node;
+
+                $('#mBeanDetailLoader').show();
+
+                // TODO: Replace with MBean Resource (node.parent)
+
+                $.ajax({
+                    type: 'GET',
+                    url: rootURL + 'mbeansearch',
+
+                    data: {
+                        objectName: node.objectName
+                    },
+
+                    dataType: 'json',
+                    success: renderMBeanDetails
+                });
+
+            }
+            else {
+                // event.node is null
+                // a node was deselected
+                // e.previous_node contains the deselected node
+            }
+        }
+    );
 
 });
 
-var rootURL = "http://localhost:8080/com.moser.jmxweb.web/resources/";
+function renderMBeanDetails(mBean) {
 
-function loadDomains() {
+    if (mBean) {
+        if (mBean.name) {
+            $('#mbeanName').empty().append('<td class="mbeanDetailHeader">Name:</td><td>' + mBean.name + '</td>');
+        }
+        if (mBean.type) {
+            $('#mbeanType').empty().append('<td class="mbeanDetailHeader">Type:</td><td>' + mBean.type + '</td>');
+        }
+        if (mBean.mBeanClass) {
+            $('#mbeanClass').empty().append('<td class="mbeanDetailHeader">MBean Class:</td><td>' + mBean.mBeanClass + '</td>');
+        }
+        if (mBean.description) {
+            $('#mbeanDescription').empty().append('<td class="mbeanDetailHeader">Description:</td><td>' + mBean.description + '</td>');
+        }
 
-    $('#domainList li').remove();
+        $.each(mBean.attributes, function(index, attribute) {
+            $('#mBeanAttributeTable tbody').append('<tr><td>' + attribute.name + '</td><td>' + attribute.accessType + '</td><td>' + attribute.type + '</td><td>' + attribute.description + '</td><td>' + attribute.value + '</td></tr>');
+        });
+    }
 
-    $('#domainListLoader').show();
+    $("#mBeanDetails").show()
+    $('#mBeanDetailLoader').hide();
 
-    $.ajax({
-        type: 'GET',
-        url: rootURL + 'domains/',
-        dataType: 'json',
-        success: renderDomainList
-    });
-
-}
-
-function loadMBeans(domainName) {
-
-    $('#mBeanList li').remove();
-
-    $('#mBeanListLoader').show();
-
-    $.ajax({
-        type: 'GET',
-        url: rootURL + 'domains/' + domainName + '/mbeans',
-        dataType: 'json',
-        success: renderMBeanList
-    });
-
-}
-
-function renderDomainList(data) {
-
-    var list = data == null ? [] : (data instanceof Array ? data : [data]);
-
-    $('#domainListLoader').hide();
-
-    $.each(list, function(index, domain) {
-        $('#domainList').append('<li><div id="' + domain.name + '" class="listEntry" href="#" onclick="loadMBeans(\'' + domain.name + '\')">' + domain.name + '</div></li>');
-    });
-}
-
-function renderMBeanList(data) {
-
-    var list = data == null ? [] : (data instanceof Array ? data : [data]);
-
-    $('#mBeanListLoader').hide();
-
-    $.each(list, function(index, mBean) {
-        $('#mBeanList').append('<li><div  class="listEntry">' + mBean.type + '</div></li>');
-    });
 }

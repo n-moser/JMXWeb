@@ -26,6 +26,7 @@ package com.moser.jmxweb.web.resource;
 import com.moser.jmxweb.core.mbean.MBeanAttribute;
 import com.moser.jmxweb.web.exception.RESTException;
 import com.moser.jmxweb.web.model.MBeanAttributeModel;
+import com.moser.jmxweb.web.resource.util.MBeanResolver;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -73,8 +74,6 @@ public class MBeanAttributeResource {
 			model.setName(attribute.getName());
 			model.setType(attribute.getType());
 			model.setDescription(attribute.getDescription());
-			model.setReadable(attribute.isReadable());
-			model.setWritable(attribute.isWritable());
 			model.setValue(attribute.getValueAsString());
 
 			modelList.add(model);

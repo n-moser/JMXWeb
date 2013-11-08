@@ -38,11 +38,9 @@ public class MBeanAttributeModel {
 
 	private String description;
 
-	private Object value;
+	private String value;
 
-	private boolean readable;
-
-	private boolean writable;
+	private MBeanAttributeAccessType accessType;
 
 	/**
 	 * Getter for the MBean Attribute name.
@@ -112,7 +110,7 @@ public class MBeanAttributeModel {
 	 *
 	 * @return the value
 	 */
-	public Object getValue() {
+	public String getValue() {
 
 		return value;
 	}
@@ -123,50 +121,29 @@ public class MBeanAttributeModel {
 	 * @param value
 	 * 		the name to value
 	 */
-	public void setValue(Object value) {
+	public void setValue(String value) {
 
 		this.value = value;
 	}
 
 	/**
-	 * Getter for the MBean Attribute readable flag.
+	 * Getter for the access type.
 	 *
-	 * @return <b>true</b> if the attribute is readanly, <b>false</b> if not
+	 * @return the access type
 	 */
-	public boolean isReadable() {
+	public MBeanAttributeAccessType getAccessType() {
 
-		return readable;
+		return accessType;
 	}
 
 	/**
-	 * Setter for the MBean Attribute readable flag.
+	 * Setter for the access type.
 	 *
-	 * @param readable
-	 * 		the readable flag
+	 * @param accessType
+	 * 		the access type to set
 	 */
-	public void setReadable(boolean readable) {
+	public void setAccessType(MBeanAttributeAccessType accessType) {
 
-		this.readable = readable;
-	}
-
-	/**
-	 * Getter for the MBean Attribute writable flag.
-	 *
-	 * @return <b>true</b> if the attribute is writable, <b>false</b> if not
-	 */
-	public boolean isWritable() {
-
-		return writable;
-	}
-
-	/**
-	 * Setter for the MBean Attribute writable flag.
-	 *
-	 * @param writable
-	 * 		the writable flag
-	 */
-	public void setWritable(boolean writable) {
-
-		this.writable = writable;
+		this.accessType = accessType;
 	}
 }

@@ -23,6 +23,9 @@
 
 package com.moser.jmxweb.web.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * MBeanEntryModel
  * <p/>
@@ -34,7 +37,11 @@ public class MBeanEntryModel extends MBeanModel {
 
 	private String name;
 
+	private String mBeanClass;
+
 	private String description;
+
+	private List<MBeanAttributeModel> attributes = new ArrayList<MBeanAttributeModel>();
 
 	/** Creates a new MBeanEntryModel instance. */
 	public MBeanEntryModel() {
@@ -68,6 +75,27 @@ public class MBeanEntryModel extends MBeanModel {
 	 *
 	 * @return the description
 	 */
+	public String getmBeanClass() {
+
+		return mBeanClass;
+	}
+
+	/**
+	 * Setter for the MBean class.
+	 *
+	 * @param mBeanClass
+	 * 		the mBeanClass to set
+	 */
+	public void setmBeanClass(String mBeanClass) {
+
+		this.mBeanClass = mBeanClass;
+	}
+
+	/**
+	 * Getter for the MBean description.
+	 *
+	 * @return the description
+	 */
 	public String getDescription() {
 
 		return description;
@@ -77,10 +105,31 @@ public class MBeanEntryModel extends MBeanModel {
 	 * Setter for the MBean description.
 	 *
 	 * @param description
-	 * 		the name to description
+	 * 		the description to set
 	 */
 	public void setDescription(String description) {
 
 		this.description = description;
+	}
+
+	/**
+	 * Getter for the attribute list.
+	 *
+	 * @return the attribute list
+	 */
+	public List<MBeanAttributeModel> getAttributes() {
+
+		return attributes;
+	}
+
+	/**
+	 * Setter for the attribute list.
+	 *
+	 * @param attributes
+	 * 		the attribute list to set
+	 */
+	protected void setAttributes(List<MBeanAttributeModel> attributes) {
+
+		this.attributes = attributes;
 	}
 }

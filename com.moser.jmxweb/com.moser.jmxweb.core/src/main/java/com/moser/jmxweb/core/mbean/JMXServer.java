@@ -121,4 +121,40 @@ public class JMXServer {
 
 		return Collections.unmodifiableMap(domains);
 	}
+
+	/**
+	 * Find the MBena with the given object name.
+	 *
+	 * @param objectName
+	 * 		the object name of the MBean
+	 *
+	 * @return the MBean
+	 *
+	 * @throws JMXConnection
+	 * 		when the MBean cannot be found or the query is invalid
+	 */
+	public MBean findMBean(String objectName) throws JMXConnectionException {
+
+		try {
+			ObjectName name = new ObjectName(objectName);
+
+			List<MBeanServer> servers = this.connection.getMBeanServers();
+			for (MBeanServer mBeanServer : servers) {
+				Set<ObjectInstance> instances = mBeanServer.queryMBeans(name, null);
+
+				for (ObjectInstance mBeanInstance : instances) {
+
+					MBeanInfo mBeanInfo = mBeanServer.getMBeanInfo(name);
+					MBean mbean = new MBean(mBeanInstance, mBeanInfo, mBeanServer);
+
+					return mbean;
+				}
+			}
+
+		} catch (Exception e) {
+			throw new JMXConnectionException("Cannot find MBean " + objectName + ".", e);
+		}
+
+		throw new JMXConnectionException("MBean " + objectName + " is not registered.");
+	}
 }

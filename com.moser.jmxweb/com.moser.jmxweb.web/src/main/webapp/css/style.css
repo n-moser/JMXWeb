@@ -27,6 +27,10 @@ body {
     background-color: whitesmoke;
 }
 
+table {
+    font-size: 11px;
+}
+
 .ui-tabs-panel {
     min-height: 80%;
 }
@@ -34,13 +38,51 @@ body {
 .content {
 }
 
+#tabs {
+}
+
 .domains {
     border-right: 2px solid gray;
     float: left;
-    height: 100%;
+    min-height: 80%;
     padding: 5 40 0 20;
     margin-right: 50px;
-    min-width: 150px;
+    min-width: 250px;
+}
+
+ul.jqtree-tree .jqtree-toggler {
+    top: 20%;
+}
+
+.treeIconDomain {
+    background:url(../img/folder.png) left top;
+    width:16px;
+    height:16px;
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+
+.treeIconGroup {
+    background:url(../img/beans.png) left top;
+    width:16px;
+    height:16px;
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+
+.treeIconMBean {
+    background:url(../img/bean.png) left top;
+    width:16px;
+    height:16px;
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+
+.clear {
+    clear:both;
 }
 
 .label {
@@ -51,13 +93,31 @@ body {
     margin-left: -20px;
 }
 
-.mbeanListEntry {
-
+#mbeanLabel {
+    margin-bottom: 20px;
 }
 
-.listEntry:hover {
-    text-decoration: underline;
-    cursor: pointer;
+#attributeLabel {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.mbeanTable {
+    width: 60%;
+    text-align: left;
+}
+
+.mbeanDetailHeader {
+    padding-right: 20px;
+}
+
+.mbeanAttributeTable {
+    text-align: left;
+    border: 1px solid;
+}
+
+.mbeanAttributeTable th {
+    background-color: blue;
 }
 
 #footer {

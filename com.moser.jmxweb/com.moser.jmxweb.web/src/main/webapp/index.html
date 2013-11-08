@@ -56,13 +56,11 @@
             <li><a href="#tabs-2">Memory</a></li>
             <li><a href="#tabs-3">Threads</a></li>
             <li><a href="#tabs-4">Classes</a></li>
-            <li><a href="#tabs-5" onclick="loadDomains()">MBeans</a></li>
+            <li><a href="#tabs-5">MBeans</a></li>
         </ul>
 
         <div id="tabs-1">
             TODO
-            <div id="mbeanTree" data-url="./resources/tree">
-            </div>
         </div>
         <div id="tabs-2">
             TODO
@@ -76,20 +74,42 @@
 
         <div id="tabs-5">
             <div class="domains">
-                <div class="label">Domains</div>
-                <div>
-                    <ul id="domainList"></ul>
-
-                    <img id="domainListLoader" src="img/loader.gif"/>
-                </div>
+                <div class="label">MBean Domains</div>
+                <div id="mbeanTree"></div>
             </div>
 
-            <div class="label">MBeans</div>
             <div>
-                <ul id="mBeanList"></ul>
+                <div id="mBeanDetails">
+                    <div id="mbeanLabel" class="label">MBean</div>
 
-                <img id="mBeanListLoader" src="img/loader.gif"/>
+                    <table id="mBeanDetailTable" class="mbeanTable">
+                        <tbody>
+                        <tr id="mbeanName"></tr>
+                        <tr id="mbeanType"></tr>
+                        <tr id="mbeanClass"></tr>
+                        <tr id="mbeanDescription"></tr>
+                        </tbody>
+                    </table>
+
+                    <div id="attributeLabel" class="label">MBean Attributes</div>
+
+                    <table id="mBeanAttributeTable" class="mbeanTable" rules="groups">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Access</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <img id="mBeanDetailLoader" src="img/loader.gif"/>
             </div>
+            <div class="clear"></div>
         </div>
     </div>
 </div>

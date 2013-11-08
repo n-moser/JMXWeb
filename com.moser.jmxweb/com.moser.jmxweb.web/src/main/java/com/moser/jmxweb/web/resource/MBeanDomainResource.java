@@ -26,6 +26,7 @@ package com.moser.jmxweb.web.resource;
 import com.moser.jmxweb.core.mbean.MBeanDomain;
 import com.moser.jmxweb.web.exception.RESTException;
 import com.moser.jmxweb.web.model.MBeanDomainModel;
+import com.moser.jmxweb.web.resource.util.MBeanResolver;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
