@@ -27,10 +27,12 @@ import com.moser.jmxweb.core.exception.JMXWebException;
 import com.moser.jmxweb.core.mbean.JMXServer;
 import com.moser.jmxweb.core.mbean.MBean;
 import com.moser.jmxweb.core.mbean.MBeanAttribute;
+import com.moser.jmxweb.core.mbean.MBeanOperation;
 import com.moser.jmxweb.web.exception.RESTException;
 import com.moser.jmxweb.web.model.MBeanAttributeAccessType;
 import com.moser.jmxweb.web.model.MBeanAttributeModel;
 import com.moser.jmxweb.web.model.MBeanEntryModel;
+import com.moser.jmxweb.web.model.MBeanOperationModel;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -78,6 +80,15 @@ public class MBeanFinderResource {
 				}
 
 				model.getAttributes().add(attributeModel);
+			}
+
+			for (MBeanOperation operation : mbean.getOperations()) {
+				MBeanOperationModel operationModel = new MBeanOperationModel();
+				operationModel.setName(operation.getName());
+				operationModel.setDescription(operation.getDescription());
+				operationModel.setType(operation.getReturnType());
+
+				model.getOperations().add(operationModel);
 			}
 
 			return model;

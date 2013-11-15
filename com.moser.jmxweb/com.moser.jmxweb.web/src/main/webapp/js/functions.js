@@ -118,20 +118,42 @@ function renderMBeanDetails(mBean) {
             $('#mbeanDescription').empty().append('<td class="mbeanDetailHeader">Description:</td><td>' + mBean.description + '</td>');
         }
 
-        $('#mBeanAttributeTable tbody').empty();
+        if (mBean.attributes && mBean.attributes.length > 0) {
 
-        $.each(mBean.attributes, function(index, attribute) {
+            $('#mBeanAttributeTable').show();
+            $('#mBeanAttributeTableNoContent').hide();
 
-            var value = attribute.value;
+            $('#mBeanAttributeTable tbody').empty();
+            $.each(mBean.attributes, function(index, attribute) {
 
-            if (value) {
-                if (value.length > 40) {
-                    value = value.substring(0, 40) + '...';
+                var value = attribute.value;
+
+                if (value) {
+                    if (value.length > 40) {
+                        value = value.substring(0, 40) + '...';
+                    }
                 }
-            }
 
-            $('#mBeanAttributeTable tbody').append('<tr><td>' + attribute.name + '</td><td>' + attribute.accessType + '</td><td>' + attribute.type + '</td><td>' + attribute.description + '</td><td>' + value + '</td></tr>');
-        });
+                $('#mBeanAttributeTable tbody').append('<tr><td>' + attribute.name + '</td><td>' + attribute.accessType + '</td><td>' + attribute.type + '</td><td>' + attribute.description + '</td><td>' + value + '</td></tr>');
+            });
+        } else {
+            $('#mBeanAttributeTable').hide();
+            $('#mBeanAttributeTableNoContent').show();
+        }
+
+        if (mBean.operations && mBean.operations.length > 0) {
+
+            $('#mBeanOperationTable').show();
+            $('#mBeanOperationTableNoContent').hide();
+
+            $('#mBeanOperationTable tbody').empty();
+            $.each(mBean.operations, function(index, operation) {
+                $('#mBeanOperationTable tbody').append('<tr><td>' + operation.name + '</td><td>' + operation.type + '</td><td>' + operation.description + '</td><td>' + operation.parameters + '</td><td><input type="button" value="Invoke" /></td></tr>');
+            });
+        } else {
+            $('#mBeanOperationTable').hide();
+            $('#mBeanOperationTableNoContent').show();
+        }
     }
 
     $("#mBeanDetails").show()

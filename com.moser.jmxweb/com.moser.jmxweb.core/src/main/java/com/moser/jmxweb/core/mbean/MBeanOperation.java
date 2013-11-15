@@ -23,6 +23,9 @@
 
 package com.moser.jmxweb.core.mbean;
 
+import com.moser.jmxweb.core.logger.JMXWebLogger;
+import com.moser.jmxweb.core.logger.JMXWebLoggerFactory;
+
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanParameterInfo;
 import javax.management.MBeanServer;
@@ -45,7 +48,11 @@ public class MBeanOperation implements Serializable {
 
 	private final MBean mBean;
 
+	private final Class<?> returnType;
+
 	private List<MBeanParameter> parameters;
+
+	private JMXWebLogger logger = JMXWebLoggerFactory.getLogger(MBeanOperation.class);
 
 	/**
 	 * Creates a new MBean operation instance.
@@ -59,6 +66,14 @@ public class MBeanOperation implements Serializable {
 
 		this.mBean = mBean;
 		this.info = operationInfo;
+
+		Class<?> typeClass = null;
+		try {
+			typeClass = Class.forName(operationInfo.getReturnType());
+		} catch (Exception e) {
+			logger.warn("Cannot load Type for Operation {} of MBean {}.", operationInfo.getName(), mBean.getName());
+		}
+		this.returnType = typeClass;
 
 		this.parameters = new ArrayList<MBeanParameter>();
 		for (MBeanParameterInfo parameterInfo : this.info.getSignature()) {
@@ -93,7 +108,11 @@ public class MBeanOperation implements Serializable {
 	 */
 	public String getReturnType() {
 
-		return this.info.getReturnType();
+		if (this.returnType == null) {
+			return this.info.getReturnType();
+		}
+
+		return this.returnType.getCanonicalName();
 	}
 
 	/**

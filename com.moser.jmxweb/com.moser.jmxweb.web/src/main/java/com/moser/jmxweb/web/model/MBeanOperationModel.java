@@ -23,9 +23,6 @@
 
 package com.moser.jmxweb.web.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * MBeanEntryModel
  * <p/>
@@ -33,26 +30,16 @@ import java.util.List;
  * Date: 05.11.13
  * Time: 22:13
  */
-public class MBeanEntryModel extends MBeanModel {
+public class MBeanOperationModel {
 
 	private String name;
 
-	private String mBeanClass;
+	private String type;
 
 	private String description;
 
-	private List<MBeanAttributeModel> attributes = new ArrayList<MBeanAttributeModel>();
-
-	private List<MBeanOperationModel> operations = new ArrayList<MBeanOperationModel>();
-
-	/** Creates a new MBeanEntryModel instance. */
-	public MBeanEntryModel() {
-
-		super(MBeanModelType.ENTRY);
-	}
-
 	/**
-	 * Getter for the MBean name.
+	 * Getter for the MBean Attribute name.
 	 *
 	 * @return the name
 	 */
@@ -62,7 +49,7 @@ public class MBeanEntryModel extends MBeanModel {
 	}
 
 	/**
-	 * Setter for the MBean name.
+	 * Setter for the MBean Attribute name.
 	 *
 	 * @param name
 	 * 		the name to set
@@ -73,28 +60,28 @@ public class MBeanEntryModel extends MBeanModel {
 	}
 
 	/**
-	 * Getter for the MBean description.
+	 * Getter for the MBean Attribute type.
 	 *
-	 * @return the description
+	 * @return the type
 	 */
-	public String getmBeanClass() {
+	public String getType() {
 
-		return mBeanClass;
+		return type;
 	}
 
 	/**
-	 * Setter for the MBean class.
+	 * Setter for the MBean Attribute type.
 	 *
-	 * @param mBeanClass
-	 * 		the mBeanClass to set
+	 * @param type
+	 * 		the type to set
 	 */
-	public void setmBeanClass(String mBeanClass) {
+	public void setType(String type) {
 
-		this.mBeanClass = mBeanClass;
+		this.type = type;
 	}
 
 	/**
-	 * Getter for the MBean description.
+	 * Getter for the MBean Attribute description.
 	 *
 	 * @return the description
 	 */
@@ -104,55 +91,14 @@ public class MBeanEntryModel extends MBeanModel {
 	}
 
 	/**
-	 * Setter for the MBean description.
+	 * Setter for the MBean Attribute description.
 	 *
 	 * @param description
-	 * 		the description to set
+	 * 		the name to description
 	 */
 	public void setDescription(String description) {
 
 		this.description = description;
 	}
 
-	/**
-	 * Getter for the attribute list.
-	 *
-	 * @return the attribute list
-	 */
-	public List<MBeanAttributeModel> getAttributes() {
-
-		return attributes;
-	}
-
-	/**
-	 * Setter for the attribute list.
-	 *
-	 * @param attributes
-	 * 		the attribute list to set
-	 */
-	protected void setAttributes(List<MBeanAttributeModel> attributes) {
-
-		this.attributes = attributes;
-	}
-
-	/**
-	 * Getter for the operation list.
-	 *
-	 * @return the operation list
-	 */
-	public List<MBeanOperationModel> getOperations() {
-
-		return operations;
-	}
-
-	/**
-	 * Setter for the operations list.
-	 *
-	 * @param operations
-	 * 		the operations list to set
-	 */
-	protected void setOperations(List<MBeanOperationModel> operations) {
-
-		this.operations = operations;
-	}
 }

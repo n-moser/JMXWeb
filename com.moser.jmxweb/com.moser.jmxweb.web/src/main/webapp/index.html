@@ -91,12 +91,12 @@
                         </tbody>
                     </table>
 
-                    <div id="attributeLabel" class="label">MBean Attributes</div>
+                    <div id="attributesLabel" class="label">MBean Attributes</div>
 
                     <table id="mBeanAttributeTable" class="mbeanTable" rules="groups">
                         <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Attribute Name</th>
                             <th>Access</th>
                             <th>Type</th>
                             <th>Description</th>
@@ -106,9 +106,33 @@
                         <tbody>
                         </tbody>
                     </table>
+
+                    <div id="mBeanAttributeTableNoContent" class="noContentLabel">No Attributes.</div>
+
+                    <div id="operationsLabel" class="label">MBean Operations</div>
+
+                    <table id="mBeanOperationTable" class="mbeanTable" rules="groups">
+                        <thead>
+                        <tr>
+                            <th>Operation Name</th>
+                            <th>Return Type</th>
+                            <th>Description</th>
+                            <th>Parameters</th>
+                            <th>Invocation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                    <div id="mBeanOperationTableNoContent" class="noContentLabel">No Operations.</div>
+
                 </div>
+
                 <img id="mBeanDetailLoader" src="img/loader.gif"/>
+
             </div>
+
             <div class="clear"></div>
         </div>
     </div>
