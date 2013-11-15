@@ -31,6 +31,7 @@ import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * MBeanAttribute
@@ -175,19 +176,41 @@ public class MBeanAttribute implements Serializable {
 		try {
 			Object value = this.getValue();
 
-//			if (this.type != null) {
-//				if (this.type.isArray()) {
-//					Object[] array = (Object[]) value;
-//					StringBuilder result = new StringBuilder();
-//					result.append("[");
-//					for (Object entry : array) {
-//						result.append(String.valueOf(entry));
-//						result.append(", ");
-//					}
-//					result.append("]");
-//					return result.toString();
-//				}
-//			}
+			if (this.type != null) {
+				if (this.type.isArray()) {
+
+					if (value instanceof long[]) {
+						return Arrays.toString((long[]) value);
+					}
+					if (value instanceof int[]) {
+						return Arrays.toString((int[]) value);
+					}
+					if (value instanceof short[]) {
+						return Arrays.toString((short[]) value);
+					}
+					if (value instanceof byte[]) {
+						return Arrays.toString((byte[]) value);
+					}
+					if (value instanceof char[]) {
+						return Arrays.toString((char[]) value);
+					}
+					if (value instanceof double[]) {
+						return Arrays.toString((double[]) value);
+					}
+					if (value instanceof float[]) {
+						return Arrays.toString((float[]) value);
+					}
+					if (value instanceof float[]) {
+						return Arrays.toString((float[]) value);
+					}
+					if (value instanceof boolean[]) {
+						return Arrays.toString((boolean[]) value);
+					}
+					if (value instanceof Object[]) {
+						return Arrays.deepToString((Object[]) value);
+					}
+				}
+			}
 
 			return String.valueOf(value);
 

@@ -118,8 +118,19 @@ function renderMBeanDetails(mBean) {
             $('#mbeanDescription').empty().append('<td class="mbeanDetailHeader">Description:</td><td>' + mBean.description + '</td>');
         }
 
+        $('#mBeanAttributeTable tbody').empty();
+
         $.each(mBean.attributes, function(index, attribute) {
-            $('#mBeanAttributeTable tbody').append('<tr><td>' + attribute.name + '</td><td>' + attribute.accessType + '</td><td>' + attribute.type + '</td><td>' + attribute.description + '</td><td>' + attribute.value + '</td></tr>');
+
+            var value = attribute.value;
+
+            if (value) {
+                if (value.length > 40) {
+                    value = value.substring(0, 40) + '...';
+                }
+            }
+
+            $('#mBeanAttributeTable tbody').append('<tr><td>' + attribute.name + '</td><td>' + attribute.accessType + '</td><td>' + attribute.type + '</td><td>' + attribute.description + '</td><td>' + value + '</td></tr>');
         });
     }
 
